@@ -1,6 +1,6 @@
 --- 
 title: "Happy Git and GitHub for the useR"
-author: "Jenny Bryan, the STAT 545 TAs, Jim Hester"
+author: "Jenny Bryan, the STAT 545 TAs, Jim Hester, as modified by Chuck Powell"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -26,13 +26,26 @@ Happy Git provides opinionated instructions on how to:
   * Develop a few key workflows that cover your most common tasks.
   * Integrate Git and GitHub into your daily work with R and [R Markdown](https://rmarkdown.rstudio.com).
   
-The target reader is someone who uses R for data analysis or who works on R packages, although some of the content may be useful to those working in adjacent areas.
+The target reader is someone who uses R for data analysis or who works on R
+packages, although some of the content may be useful to those working in
+adjacent areas. This is CT DPH specific edition, kindly made possible
+by the original authors Creative Commons License.
 
-The first two parts, [Installation](#install-intro) and [Connect Git, GitHub, RStudio](#connect-intro), provide a "batteries included" quick start to verify your setup.
+The first two parts, [Installation](#install-intro) and 
+[Connect Git, GitHub, RStudio](#connect-intro), provide a "batteries included"
+quick start to verify your setup.
 
-In [Early GitHub Wins](#usage-intro), we rack up some early success with the basic workflows that are necessary to get your work onto GitHub. We also show the special synergy between R/R Markdown/RStudio and GitHub, which provides a powerful demonstration of why all this setup is worthwhile.
+In [Early GitHub Wins](#usage-intro), we rack up some early success with the
+basic workflows that are necessary to get your work onto GitHub. We also show
+the special synergy between R/R Markdown/RStudio and GitHub, which provides a
+powerful demonstration of why all this setup is worthwhile.
 
-The use of Git/GitHub in data science has a slightly different vibe from that of pure software develoment, due to differences in the user's context and objective. Happy Git aims to complement existing, general Git resources by highlighting the most rewarding usage patterns for data science. This perspective on the Git landscape is presented in [Basic Git Concepts](#git-intro) and [Daily Workflows](#workflows-intro). 
+Our use of Git/GitHub for DPH work has a slightly different vibe from that of
+pure software development, due to differences in the user's context and
+objective. Happy Git aims to complement existing, general Git resources by
+highlighting the most rewarding usage patterns for data science. This
+perspective on the Git landscape is presented in [Basic Git
+Concepts](#git-intro) and [Daily Workflows](#workflows-intro).
 
 ## License {-}
 
