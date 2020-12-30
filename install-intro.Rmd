@@ -18,13 +18,5 @@ specific to an individual OS or even individual computer. If you have some new
 problem and, especially, the corresponding solution, 
 [we'd love to hear from you!](https://github.com/ibecav/ctdph_playground/issues)
 
-## Success and operating systems {-}
-
-<style type="text/css">
-#success-and-operating-systems table {
-  width: auto;
-}
-</style>
-
 Our installation instructions are brand new, bear with us it's the hardest
 part.
