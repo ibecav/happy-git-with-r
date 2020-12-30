@@ -1,8 +1,10 @@
 # Detect Git from RStudio {#rstudio-see-git}
 
-If you want RStudio to help with your Git and GitHub work, it must be able to find the Git executable.
+If you want RStudio to help with your Git and GitHub work, it must be able to
+find the Git executable.
 
-This usually "just works", so this page is aimed at people who have reason to suspect they have a problem.
+This usually "just works", so this page is aimed at people who have reason to
+suspect they have a problem.
 
 This is something you set up once-per-computer.
 
@@ -10,19 +12,28 @@ This is something you set up once-per-computer.
 
 Let's check if RStudio can find the Git executable.
 
-  * *File > New Project...* Do you see an option to create from Version Control? If yes, good.
-  * Select *New Directory* > *Empty Project*. Do you see a checkbox "Create a git repository"? If yes, good, CHECK IT.
-  * Give this disposable test project a name and click *Create Project*. Do you see a "Git" tab in the upper right pane, the same one that has "Environment" and "History"? If yes, good.
+  * *File > New Project...* Do you see an option to create from Version Control?
+    If yes, good.
+  * Select *New Directory* > *Empty Project*. Do you see a checkbox "Create a
+    git repository"? If yes, good, CHECK IT.
+  * Give this disposable test project a name and click *Create Project*. Do you
+    see a "Git" tab in the upper right pane, the same one that has "Environment"
+    and "History"? If yes, good.
   
-If all looks good, you can delete this project. Looks like RStudio and Git are talking to each other.
+If all looks good, you can delete this project. Looks like RStudio and Git are
+talking to each other.
 
 Keep reading if things don't go so well or you want to know more.
 
 ## Find Git yourself
 
-RStudio can only act as a GUI front-end for Git if Git has been successfully installed (chapter \@ref(install-git)) **AND RStudio can find it**.
+RStudio can only act as a GUI front-end for Git if Git has been successfully
+installed (chapter \@ref(install-git)) **AND RStudio can find it**.
 
-A basic test for successful installation of Git is to simply enter `git` in the shell (Appendix \@ref(shell)). If you get a complaint about Git not being found, it means installation was unsuccessful or that it is not being found, i.e. it is not on your `PATH`.
+A basic test for successful installation of Git is to simply enter `git` in the
+shell (Appendix \@ref(shell)). If you get a complaint about Git not being found,
+it means installation was unsuccessful or that it is not being found, i.e. it is
+not on your `PATH`.
 
 If you are not sure where the Git executable lives, try this in a shell:
   
