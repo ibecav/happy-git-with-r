@@ -32,7 +32,7 @@ macOS users might get an immediate offer to install command line developer tools
 
 ## Windows  {#install-git-windows}
 
-**Option 1** (*highly recommended*): Install [Git for Windows](https://git-for-windows.github.io/), also known as `msysgit` or "Git Bash", to get Git in addition to some other useful tools, such as the Bash shell. Yes, all those names are totally confusing, but you might encounter them elsewhere and I want you to be well-informed.
+*highly recommended*: Install [Git for Windows](https://git-for-windows.github.io/), also known as `msysgit` or "Git Bash", to get Git in addition to some other useful tools, such as the Bash shell. Yes, all those names are totally confusing, but you might encounter them elsewhere and I want you to be well-informed.
 
 We like this because Git for Windows leaves the Git executable in a conventional location, which will help you and other programs, e.g. RStudio, find it and use it. This also supports a transition to more expert use, because the "Git Bash" shell will be useful as you venture outside of R/RStudio.
 
@@ -42,20 +42,6 @@ We like this because Git for Windows leaves the Git executable in a conventional
 This also leaves you with a Git client, though not a very good one. So check out Git clients we recommend (chapter \@ref(git-client)).
 
 FYI, this appears to be equivalent to what you would download from here: <https://git-scm.com/download/>.
-
-**Option 2** (*recommended*): Install [Git for Windows](https://git-for-windows.github.io/) via the [Chocolatey](https://chocolatey.org) package manager. If this means anything to you, Chocolatey is like [`apt-get`](https://en.wikipedia.org/wiki/APT_(Debian)) or [Homebrew](https://brew.sh), but for Windows instead of Debian/Ubuntu Linux or macOS. As far as I can tell, using Chocolatey to install Git for Windows gives the same result as installing it yourself (option 1).
-
-This obviously requires that you already have [Chocolatey](https://chocolatey.org) installed or that you are up for installing it. It is not hard and the [instructions are here](https://chocolatey.org/install). This may be worthwhile if it seems likely you will be installing more open source software in the future.
-
-After you install Chocolatey, in a shell (Appendix \@ref(shell)), do:
-
-``` bash
-choco install git.install
-```
-
-This installs the most current [Git (Install) X.Y.Z](https://chocolatey.org/packages/git.install) Chocolatey package. At the time of writing, that is "Git (Install) 2.29.2.2", but that version number will increment over time.
-
-If you [search Chocolatey packages](https://chocolatey.org/packages) yourself, you might see two packages that install Git -- "Git (Install) 2.29.2.2" and "Git 2.29.2.2", at the time of writing. I believe "Git (Install) 2.29.2.2" is technically the more correct, but I also think it doesn't really matter which one you use. A rather confusing explanation is found [here](https://chocolatey.org/docs/chocolatey-faqs#what-is-the-difference-between-packages-no-suffix-as-compared-toinstallportable). Don't worry too much about whether you do `choco install git.install` or `choco install git`.
 
 ## macOS
 
@@ -78,37 +64,18 @@ xcode-select --install
 
 We just happen to find this Git-based trigger apropos.
 
-Note also that, after upgrading macOS, you might need to re-do the above and/or re-agree to the Xcode license agreement. We have seen this cause the RStudio Git pane to disappear on a system where it was previously working. Use commands like those above to tickle Xcode into prompting you for what it needs, then restart RStudio.
+Note also that, after upgrading macOS, you might need to re-do the above and/or
+re-agree to the Xcode license agreement. We have seen this cause the RStudio Git
+pane to disappear on a system where it was previously working. Use commands like
+those above to tickle Xcode into prompting you for what it needs, then restart
+RStudio.
 
-**Option 2** (*recommended*): Install Git from here: <http://git-scm.com/downloads>.
-
-  * This arguably sets you up the best for the future. It will certainly get you the latest version of Git of all approaches described here.
-  * The GitHub home for the macOS installer is here: <https://github.com/timcharper/git_osx_installer>.
-    - At that link, you can find more info if something goes wrong or you are working on an old version of macOS.
-
-**Option 3** (*recommended*): If you anticipate getting heavily into scientific computing, you're going to be installing and updating lots of software. You should check out [Homebrew](http://brew.sh), "the missing package manager for OS X". Among many other things, it can install Git for you. Once you have Homebrew installed, do this in the shell:
+**Option 3** (*recommended*): If you anticipate getting heavily into scientific
+computing, you're going to be installing and updating lots of software. You
+should check out [Homebrew](http://brew.sh), "the missing package manager for OS
+X". Among many other things, it can install Git for you. Once you have Homebrew
+installed, do this in the shell:
 
 ```
 brew install git
 ```
-
-
-## Linux
-
-Install Git via your distro's package manager.
-
-Ubuntu or Debian Linux:
-
-```sh
-sudo apt-get install git
-```
-
-Fedora or RedHat Linux:
-
-```sh
-sudo yum install git
-```
-
-A comprehensive list for various Linux and Unix package managers:
-
-<https://git-scm.com/download/linux>
