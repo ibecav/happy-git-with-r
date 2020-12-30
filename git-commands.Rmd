@@ -1,8 +1,12 @@
 # Git commands {#git-commands}
 
-A collection of some of the Git commands that have been largely going on under the hood. We've emphasized early workflows that are possible in RStudio. But all of this and much more can be done from the command line. This list is here mostly so we can consult it during live workshops if needed.
+A collection of some of the Git commands that have been largely going on under
+the hood. We've emphasized early workflows that are possible in RStudio. But all
+of this and much more can be done from the command line. This list is here
+mostly so we can consult it during live workshops if needed.
 
-*Unless you use the [GitHub API](https://developer.github.com/v3/), most of the GitHub bits really have to be done from the browser.*
+*Unless you use the [GitHub API](https://developer.github.com/v3/), 
+most of the GitHub bits really have to be done from the browser.*
 
 New local git repo from a repo on GitHub:
 
@@ -45,7 +49,8 @@ git remote --verbose
 git remote show origin
 ```
 
-Push local master to GitHub master and have local master track master on GitHub:
+Push local master to GitHub master and have local master track master on
+GitHub:
 
 ``` bash
 git push --set-upstream origin master

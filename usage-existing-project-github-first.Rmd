@@ -1,8 +1,11 @@
 # Existing project, GitHub first {#existing-github-first}
 
-A novice-friendly workflow for bringing an existing R project into the RStudio and Git/GitHub universe.
+A novice-friendly workflow for bringing an existing R project into the RStudio
+and Git/GitHub universe.
 
-We do this in a slightly awkward way, in order to avoid using Git at the command line. You won't want to work this way forever, but it's perfectly fine as you're getting started!
+We do this in a slightly awkward way, in order to avoid using Git at the command
+line. You won't want to work this way forever, but it's perfectly fine as you're
+getting started!
 
 We assume you've got your existing R project isolated in a directory on your computer. If that's not already true, make it so. Create a directory and marshal all the existing data and R scripts there. It doesn't really matter where you do this, but note where the project currently lives.
 

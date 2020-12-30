@@ -11,14 +11,17 @@ merging them back together quickly.
 
 ## Create a new branch
 
-You can create a new branch with `git branch`, then checkout the branch with `git checkout`. To distinguish it from the main stream of development, presumably on `master`, we'll call this a "feature branch".
+You can create a new branch with `git branch`, then checkout the branch with
+`git checkout`. To distinguish it from the main stream of development,
+presumably on `master`, we'll call this a "feature branch".
 
 ```shell
 git branch issue-5
 git checkout issue-5
 ```
 
-You can also use the shortcut `git checkout -b issue-5` to create and checkout the branch all at once.
+You can also use the shortcut `git checkout -b issue-5` to create and checkout
+the branch all at once.
 
 Once you have switched to a branch, you can commit to it as usual.
 
@@ -27,29 +30,36 @@ Once you have switched to a branch, you can commit to it as usual.
 You use `git checkout` to switch between branches.
 
 But what do you do if you are working on a branch and need to switch,
-but the work on the current branch is not complete? One option is the [Git
-stash](https://git-scm.com/book/en/v2/ch00/_git_stashing), but generally a
-better option is to safeguard the current state with a temporary commit. Here I
-use "WIP" as the commit message to indicate work in progress.
+but the work on the current branch is not complete? One option is the 
+[Git stash](https://git-scm.com/book/en/v2/ch00/_git_stashing), 
+but generally a better option is to safeguard the current state with a temporary
+commit. Here I use "WIP" as the commit message to indicate work in progress.
 
 ```shell
 git commit --all -m "WIP"
 git checkout master
 ```
 
-Then when you come back to the branch and continue your work, you
-need to undo the temporary commit by [resetting](#reset) your state. Specifically, we want a mixed reset. This is "working directory safe", i.e. it does not affect the state of any files. But it does peel off the temporary WIP commit. Below, the reference `HEAD^` says to roll the commit state back to the parent of the current commit (`HEAD`).
+Then when you come back to the branch and continue your work, you need to undo
+the temporary commit by [resetting](#reset) your state. Specifically, we want a
+mixed reset. This is "working directory safe", i.e. it does not affect the state
+of any files. But it does peel off the temporary WIP commit. Below, the
+reference `HEAD^` says to roll the commit state back to the parent of the
+current commit (`HEAD`).
 
 ```shell
 git checkout issue-5
 git reset HEAD^
 ```
 
-If this is difficult to remember, or to roll the commit state back to a different previous state, the reference can also be given as the SHA of a specific commit, which you can see via `git log`.
+If this is difficult to remember, or to roll the commit state back to a
+different previous state, the reference can also be given as the SHA of a
+specific commit, which you can see via `git log`.
 
 ## Merging a branch
 
-Once you have done your work and committed it to the feature branch, you can switch back to `master` and merge the feature branch.
+Once you have done your work and committed it to the feature branch, you can
+switch back to `master` and merge the feature branch.
 
 ```shell
 git checkout master
@@ -106,7 +116,9 @@ In this conflict, the lines between `<<<<<< HEAD:index.html` and `======` are
 the content from the branch you are currently on. The lines between `=======`
 and `>>>>>>> issue-5:index.html` are from the feature branch we are merging.
 
-To resolve the conflict, edit this section until it reflects the state you want in the merged result. Pick one version or the other or create a hybrid. Also remove the conflict markers `<<<<<<`, `======` and `>>>>>>`.
+To resolve the conflict, edit this section until it reflects the state you want
+in the merged result. Pick one version or the other or create a hybrid. Also
+remove the conflict markers `<<<<<<`, `======` and `>>>>>>`.
 
 ```html
 <div id="footer">
@@ -114,7 +126,8 @@ please contact us at email.support@github.com
 </div>
 ```
 
-Now run `git add index.html` and `git commit` to finalize the merge. CONFLICTS RESOLVED.
+Now run `git add index.html` and `git commit` to finalize the merge. CONFLICTS
+RESOLVED.
 
 ### Bailing out
 
