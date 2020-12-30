@@ -10,3 +10,4 @@ happygitwithr.rds
 .Rbuildignore
 img/github-configs
 happygitwithr.html
+.DS_Store

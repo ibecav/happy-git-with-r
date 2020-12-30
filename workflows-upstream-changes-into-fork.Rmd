@@ -11,11 +11,14 @@ taking an interest in someone else's work for the second time and you want to
 make another pull request. Or you just want your copy to reflect their recent
 work. It is also totally normal to set this up upon first need.
 
-Vocabulary: `OWNER/REPO` refers to the original GitHub repo, owned by `OWNER`, who is not you. `YOU/REPO` refers to your copy on GitHub, i.e. your fork.
+Vocabulary: `OWNER/REPO` refers to the original GitHub repo, owned by `OWNER`,
+who is not you. `YOU/REPO` refers to your copy on GitHub, i.e. your fork.
 
 ## No, you can't do this via GitHub
 
-You might hope that GitHub could automatically keep your fork `YOU/REPO` synced up with the original `OWNER/REPO`. Or that you could do this in the browser interface. Then you could pull those upstream changes into your local repo.
+You might hope that GitHub could automatically keep your fork `YOU/REPO` synced
+up with the original `OWNER/REPO`. Or that you could do this in the browser
+interface. Then you could pull those upstream changes into your local repo.
 
 But you can't.
 
@@ -23,7 +26,10 @@ There are some tantalizing, janky ways to sort of do parts of this. But they hav
 
 ## Initial conditions
 
-Get into the repo of interest, i.e. your local copy. For many of you, this means launching it as an RStudio Project. You'll probably also want to open a terminal (Appendix \@ref(shell)) within RStudio for some Git work via *Tools > Terminal > New Terminal*.
+Get into the repo of interest, i.e. your local copy. For many of you, this means
+launching it as an RStudio Project. You'll probably also want to open a terminal
+(Appendix \@ref(shell)) within RStudio for some Git work via *Tools > Terminal >
+New Terminal*.
 
 Make sure you are on the `master` branch and your "working tree is clean". `git status` should show something like:
 
