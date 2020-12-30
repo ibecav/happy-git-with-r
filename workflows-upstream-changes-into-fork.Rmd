@@ -1,10 +1,15 @@
 # Get upstream changes for a fork {#upstream-changes}
 
-This workflow is relevant if you have done [fork and clone](#fork-and-clone) and now you need to pull subsequent changes from the original repo into your copy.
+This workflow is relevant if you have done [fork and clone](#fork-and-clone) and
+now you need to pull subsequent changes from the original repo into your copy.
 
-Sometimes you set this up right away, when you fork and clone, even though you don't need it yet. Congratulations, you are planning for the future!
+Sometimes you set this up right away, when you fork and clone, even though you
+don't need it yet. Congratulations, you are planning for the future!
 
-It's also very typical to do this step a few days or months later. Maybe you're taking an interest in someone else's work for the second time and you want to make another pull request. Or you just want your copy to reflect their recent work. It is also totally normal to set this up upon first need.
+It's also very typical to do this step a few days or months later. Maybe you're
+taking an interest in someone else's work for the second time and you want to
+make another pull request. Or you just want your copy to reflect their recent
+work. It is also totally normal to set this up upon first need.
 
 Vocabulary: `OWNER/REPO` refers to the original GitHub repo, owned by `OWNER`, who is not you. `YOU/REPO` refers to your copy on GitHub, i.e. your fork.
 
