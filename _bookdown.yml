@@ -10,7 +10,6 @@ rmd_files: [
 
   "overview.Rmd",
   "contributors.Rmd",
-  "workshops.Rmd",
 
   "install-intro.Rmd",
   "install-github-acct.Rmd",
