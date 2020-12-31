@@ -1,4 +1,4 @@
-# Authors {#contrib}
+# Contributors {#contrib}
 
 Jenny Bryan ([jennybryan.org](https://jennybryan.org)), Software Engineer at [RStudio](https://www.rstudio.com) on the [tidyverse](https://www.tidyverse.org)/[r-lib](https://github.com/r-lib/) team. Main author and content wrangler.
 
