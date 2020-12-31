@@ -21,7 +21,7 @@ library(usethis)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")
 ```
 
-## More about `git config`
+**More about `git config`**
 
 An easy way to get into a shell from RStudio is *Tools > Terminal* or *Tools >
 Shell*. More about the shell in the Appendix \@ref(shell).
@@ -44,7 +44,7 @@ your GitHub account.
 These commands return nothing. You can check that Git understood what you typed
 by looking at the output of `git config --global --list`.
 
-### Configure the Git editor {#git-editor}
+**Configure the Git editor {#git-editor}**
 
 Another Git option that many people eventually configure is the editor. At some
 point, you will fail to give Git what it wants in terms of a commit message and

@@ -1,6 +1,4 @@
 bookdown::gitbook:
-  includes:
-    in_header: [ga_script.html]
   css: style.css
   split_bib: FALSE
   config:

@@ -1,6 +1,4 @@
-# (PART) Installation {-} 
-
-# Half the battle {#install-intro .unnumbered}
+# Installation -- Half the battle {#install-intro}
 
 Getting all the necessary software installed, configured, and playing nicely
 together is honestly half the battle when first adopting Git. Brace yourself for
