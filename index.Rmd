@@ -30,8 +30,8 @@ Happy Git provides opinionated instructions on how to:
   
 The target reader is someone who uses R for data analysis or who works on R
 packages, although some of the content may be useful to those working in
-adjacent areas. This is CT DPH specific edition, kindly made possible
-by the original authors Creative Commons License.
+adjacent areas. This is a CT DPH specific edition, kindly made possible
+by the original authors' Creative Commons License.
 
 The first two parts, [Installation](#install-intro) and 
 [Connect Git, GitHub, RStudio](#connect-intro), provide a "batteries included"

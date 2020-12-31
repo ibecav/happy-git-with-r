@@ -1,5 +1,10 @@
 # Contributors {#contrib}
 
+This is a customized fork of the 
+[awesome bookdown work](https://github.com/jennybc/happy-git-with-r)
+from the authors below and full credit is due to them for their
+efforts.  Local customization was done by Chuck Powell.
+
 Jenny Bryan ([jennybryan.org](https://jennybryan.org)), Software Engineer at [RStudio](https://www.rstudio.com) on the [tidyverse](https://www.tidyverse.org)/[r-lib](https://github.com/r-lib/) team. Main author and content wrangler.
 
 The development and delivery of this material has also benefited greatly from contributions by:

@@ -16,7 +16,7 @@ configuration. Why? The experts ...
 In their defense, it's hard to write installation instructions. Failures can be
 specific to an individual OS or even individual computer. If you have some new
 problem and, especially, the corresponding solution, 
-[we'd love to hear from you!](https://github.com/ibecav/ctdph_playground/issues)
+[we'd love to hear from you!](https://github.com/ibecav/happy-git-with-r)
 
 Our installation instructions are brand new, bear with us it's the hardest
 part.

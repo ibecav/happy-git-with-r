@@ -9,7 +9,6 @@ rmd_files: [
   "index.Rmd",
 
   "overview.Rmd",
-  "contributors.Rmd",
 
   "install-intro.Rmd",
   "install-github-acct.Rmd",
@@ -64,6 +63,7 @@ rmd_files: [
   "notes-ideas.Rmd",
   "notes-bookdown-cheat-sheet.Rmd",
 
+  "contributors.Rmd",
   "appendix.Rmd",
   "shell.Rmd",
   "github-api-tokens.Rmd",
