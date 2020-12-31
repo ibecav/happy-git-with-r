@@ -1,8 +1,14 @@
 # The shell {#shell}
 
-Even if you do most of your Git operations via a client, such as RStudio or GitKraken, you must sometimes work in the shell. As you get more comfortable with Git, you might prefer to do more and more via the command line. You might also need to use Git or file system operations on a server that lacks your usual Git client. For all these reasons, it is a good idea to learn your way around the shell.
+Even if you do most of your Git operations via a client, such as RStudio or
+GitKraken, you must sometimes work in the shell. As you get more comfortable
+with Git, you might prefer to do more and more via the command line. You might
+also need to use Git or file system operations on a server that lacks your usual
+Git client. For all these reasons, it is a good idea to learn your way around
+the shell.
 
-Here's a typical look for a shell. You'll see a simple blinking cursor, waiting for input:
+Here's a typical look for a shell. You'll see a simple blinking cursor, waiting
+for input:
 
 <!-- why can bookdown not find this?!?
 ![](http://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Bash_screenshot.png/440px-Bash_screenshot.png)
@@ -12,40 +18,62 @@ Here's a typical look for a shell. You'll see a simple blinking cursor, waiting 
 
 ## What is the shell?
 
-The shell is a program on your computer whose job is to run other programs. Pseudo-synonyms are "terminal", "command line", and "console". There's a whole StackExchange thread on the differences ([What is the difference between Terminal, Console, Shell, and Command Line?](https://askubuntu.com/questions/506510/what-is-the-difference-between-terminal-console-shell-and-command-line)), but I don't find it to be terribly enlightening. Your mileage may vary.
+The shell is a program on your computer whose job is to run other programs.
+Pseudo-synonyms are "terminal", "command line", and "console". There's a whole
+StackExchange thread on the differences (
+[What is the difference between Terminal, Console, Shell, and Command Line?](https://askubuntu.com/questions/506510/what-is-the-difference-between-terminal-console-shell-and-command-line)
+),
+but I don't find it to be terribly enlightening. Your mileage may vary.
 
-Many programmers spend lots of time in a shell, as opposed to in GUIs, because it is very fast, concise, and ubiquitous in their relevant computing environments. This is how all work was done before we got the mouse and GUIs.
+Many programmers spend lots of time in a shell, as opposed to in GUIs, because
+it is very fast, concise, and ubiquitous in their relevant computing
+environments. This is how all work was done before we got the mouse and GUIs.
 
-The most common shell is `bash` and it gets thrown around as a proxy for "shell" sometimes, just like "Coke" and "Kleenex" are proxies for cola and tissues.
+The most common shell is `bash` and it gets thrown around as a proxy for "shell"
+sometimes, just like "Coke" and "Kleenex" are proxies for cola and tissues.
 
-In Happy Git, sometimes we demo the use of a shell for certain tasks, like navigating the file system and doing Git operations, when we don't want to or can't use RStudio. Providing shell commands is also less ambiguous and less perishable than describing human interactions with a GUI.
+In Happy Git, sometimes we demo the use of a shell for certain tasks, like
+navigating the file system and doing Git operations, when we don't want to or
+can't use RStudio. Providing shell commands is also less ambiguous and less
+perishable than describing human interactions with a GUI.
 
 ## Starting the shell
 
 ### From within RStudio
 
-You can launch a shell from RStudio. This is often handy, because RStudio makes every effort to put you in a sane working directory, i.e. in the current project.
+You can launch a shell from RStudio. This is often handy, because RStudio makes
+every effort to put you in a sane working directory, i.e. in the current
+project.
 
 There are two ways:
 
-  * *Tools > Terminal* launches a shell within RStudio, graphically and process-wise. I believe this is usually what you want.
+  * *Tools > Terminal* launches a shell within RStudio, graphically and
+    process-wise. I believe this is usually what you want.
   * *Tools > Shell ...* launches a shell external to RStudio.
 
 ### Outside of RStudio
 
 #### macOS
 
-The shell is often called the "terminal" on macOS, by which people mean Terminal.app. One way to launch is via Spotlight Search. Type Command + space and start typing "terminal". This process will something like so:
+The shell is often called the "terminal" on macOS, by which people mean
+Terminal.app. One way to launch is via Spotlight Search. Type Command + space
+and start typing "terminal". This process will something like so:
 	
 ![](img/terminal_mac_search.png)
 
 Terminal.app is typically located at */Applications/Utilities/Terminal.app*.
 	
-Opening Terminal.app brings you to a bash shell opened to your home directory `~/`, which is shorthand for `/Users/YOURUSERNAME`. You should see something like this:
+Opening Terminal.app brings you to a bash shell opened to your home directory
+`~/`, which is shorthand for `/Users/YOURUSERNAME`. You should see something
+like this:
 
 ![](img/terminal_mac.png)
 
-If you have administrative rights on your computer, prefacing any command with `sudo` will allow you to run the command as an administrator. Expect to be challenged for your password. If you need to change administrative privileges or your password, see [this article](https://support.apple.com/en-us/HT204012) from Apple.
+If you have administrative rights on your computer, prefacing any command with
+`sudo` will allow you to run the command as an administrator. Expect to be
+challenged for your password. If you need to change administrative privileges or
+your password, see [this article](https://support.apple.com/en-us/HT204012) from
+Apple.
 
 #### Windows
 
@@ -53,11 +81,16 @@ We defer this until the next section, due to the more complex shell situation on
 
 ## Windows is special ... and not in a good way {#windows-shell-hell}
 
-Windows is not the ideal platform for scientific computing and software development. A lot of the functionality is going to feel janky and strapped on. Because it is.
+Windows is not the ideal platform for scientific computing and software
+development. A lot of the functionality is going to feel janky and strapped on.
+Because it is.
 
-There are no fewer than 4 possible shells you can end up in. Unless you know better, you almost certainly want to be in a Git Bash shell, especially here in Happy Git.
+There are no fewer than 4 possible shells you can end up in. Unless you know
+better, you almost certainly want to be in a Git Bash shell, especially here in
+Happy Git.
 
-Windows users will want to understand the different types of shell, how to launch them, and how to tell which one you're in.
+Windows users will want to understand the different types of shell, how to
+launch them, and how to tell which one you're in.
 
 ### Git Bash
 
@@ -68,11 +101,16 @@ $ echo $SHELL
 /usr/bin/bash
 ```
 
-Git Bash is a bash shell that ships with Git for Windows, which is [the Happy Git way to install Git on Windows](#install-git-windows). Therefore, you will not have Git Bash on your system until you install Git for Windows.
+Git Bash is a bash shell that ships with Git for Windows, which is 
+[the Happy Git way to install Git on Windows](#install-git-windows). 
+Therefore, you will not have Git Bash on your system until you install Git for Windows.
 
 Git Bash is always the Windows shell we are targeting in Happy Git instructions.
 
-RStudio should automatically detect the presence of Git Bash. You can inspect and influence this directly via *Tools > Global Options > Terminal*. Unless you have good reason to do otherwise, you want to see "Git Bash" in the "New terminals open with ..." dropdown menu.
+RStudio should automatically detect the presence of Git Bash. You can inspect
+and influence this directly via *Tools > Global Options > Terminal*. Unless you
+have good reason to do otherwise, you want to see "Git Bash" in the "New
+terminals open with ..." dropdown menu.
 
 ![](img/git-bash-as-rstudio-terminal.png)
 

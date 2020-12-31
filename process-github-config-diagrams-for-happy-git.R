@@ -3,6 +3,7 @@ library(magick)
 library(fs)
 library(here)
 
+
 # TODO: soon, I should move the source Keynote document (or part of it)
 # into this project
 exported_paths <- dir_ls("~/rrr/happy-git-with-r-slides/github-configs/2020-06_usethis-motivated-git-diagrams/")
