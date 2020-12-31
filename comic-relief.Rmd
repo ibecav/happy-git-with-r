@@ -1,6 +1,6 @@
 # Comic relief {#comic-relief}
 
-It's not you, it's Git!
+It's not you, it's Git! Not needed.
 
 If you're not crying already, these fictional-but-realistic Git man pages should do the trick:
 

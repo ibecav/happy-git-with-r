@@ -2,4 +2,4 @@
 
 # Notes {#notes-intro .unnumbered}
 
-This part holds content that is deprecated/stale, does not exist yet, or relates to bookdown mechanics.
+This part holds content that is deprecated/stale, or relates to bookdown mechanics.
