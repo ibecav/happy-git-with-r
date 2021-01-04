@@ -21,10 +21,6 @@ rmd_files: [
   "remote-setups-intro.Rmd",
 
   "workflows-intro.Rmd",
-  "workflows-pull.Rmd",
-  "workflows-see-the-past.Rmd",
-  "workflows-fork-and-clone.Rmd",
-  "workflows-upstream-changes-into-fork.Rmd",
   "workflows-explore-extend-pull-request.Rmd",
   "workflows-make-github-repo-browsable.Rmd",
 
