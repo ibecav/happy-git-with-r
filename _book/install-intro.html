@@ -447,15 +447,27 @@ viewable the invite is clutch.</p>
 <div id="install-r-rstudio" class="section level2">
 <h2><span class="header-section-number">2.2</span> Install or upgrade R and RStudio</h2>
 <ol style="list-style-type: decimal">
-<li><p>Install a pre-compiled binary of R for your OS from here:<br />
-<a href="https://cloud.r-project.org" class="uri">https://cloud.r-project.org</a><br />
-Already have R installed? <strong>Hold on: This is a great time to make sure your R installation is current.</strong> Check your current version like so:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="install-intro.html#cb1-1"></a>R.version.string</span>
-<span id="cb1-2"><a href="install-intro.html#cb1-2"></a><span class="co">#&gt; [1] &quot;R version 4.0.3 (2020-10-10)&quot;</span></span></code></pre></div></li>
-<li><p>Install RStudio Desktop.<br />
-Already have RStudio? <strong>Hold on: This is a great time to upgrade to the latest version.</strong> Download it here:<br />
-<a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a></p></li>
-<li><p>Update your R packages:</p></li>
+<li>Install a pre-compiled binary of R for your OS from here:<br />
+<a href="https://cloud.r-project.org" class="uri">https://cloud.r-project.org</a></li>
+</ol>
+<div class="figure">
+<img src="img/cran_screenshot.png" alt="" />
+<p class="caption">Screenshot showing CRAN download</p>
+</div>
+<p>Already have R installed? <strong>Hold on: This is a great time to make sure your R installation is current.</strong> Check your current version like so:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="install-intro.html#cb1-1"></a>    R.version.string</span>
+<span id="cb1-2"><a href="install-intro.html#cb1-2"></a><span class="co">#&gt; [1] &quot;R version 4.0.3 (2020-10-10)&quot;</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Install RStudio Desktop. Already have RStudio? <strong>Hold on: This is a great
+time to upgrade to the latest version.</strong> Download it here:
+<a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a></li>
+</ol>
+<div class="figure">
+<img src="img/rstudio_versions.png" alt="" />
+<p class="caption">Screenshot showing RStudio download</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Update your R packages:</li>
 </ol>
 <p>From RStudio with <code>Packages -&gt; Update</code> or from the console with:</p>
 <pre><code>```r
@@ -510,6 +522,10 @@ tools. Yes, you should accept! Click “Install” and read more below.</p>
 <code>msysgit</code> or “Git Bash”, to get Git in addition to some other useful tools, such
 as the Bash shell. Yes, all those names are totally confusing, but you might
 encounter them elsewhere and I want you to be well-informed.</p>
+<div class="figure">
+<img src="img/git_install_small.png" alt="" />
+<p class="caption">Screenshot showing Git download</p>
+</div>
 <p>We like this because Git for Windows leaves the Git executable in a conventional
 location, which will help you and other programs, e.g. RStudio, find it and use
 it. This also supports a transition to more expert use, because the “Git Bash”
@@ -559,6 +575,10 @@ do this in the shell:</p>
 <span id="cb8-2"><a href="install-intro.html#cb8-2"></a><span class="fu">git</span> config --global user.email <span class="st">&#39;jane@example.com&#39;</span></span>
 <span id="cb8-3"><a href="install-intro.html#cb8-3"></a><span class="fu">git</span> config --global --list</span></code></pre></div>
 <p>substituting your name and <strong>the email associated with your GitHub account</strong>.</p>
+<div class="figure">
+<img src="img/update_names.png" alt="" />
+<p class="caption">Screenshot showing Git download</p>
+</div>
 <p>The <a href="https://usethis.r-lib.org">usethis package</a> offers an alternative approach.
 You can set your Git user name and email from within R:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="install-intro.html#cb9-1"></a><span class="co">## install if needed (do this exactly once):</span></span>

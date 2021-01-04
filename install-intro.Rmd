@@ -52,13 +52,21 @@ knitr::opts_chunk$set(
 
 1. Install a pre-compiled binary of R for your OS from here:  
     <https://cloud.r-project.org>  
-    Already have R installed? **Hold on: This is a great time to make sure your R installation is current.** Check your current version like so:
-    ```{r}
+    
+![Screenshot showing CRAN download](img/cran_screenshot.png)
+
+Already have R installed? **Hold on: This is a great time to make sure your R installation is current.** Check your current version like so:
+
+```{r}
     R.version.string
-    ```
-1. Install RStudio Desktop.  
-   Already have RStudio? **Hold on: This is a great time to upgrade to the latest version.** Download it here:  
+```
+
+1. Install RStudio Desktop. Already have RStudio? **Hold on: This is a great
+   time to upgrade to the latest version.** Download it here:
     <https://www.rstudio.com/products/rstudio/download/>
+    
+![Screenshot showing RStudio download](img/rstudio_versions.png)
+    
 1. Update your R packages:
 
 From RStudio with `Packages -> Update` or from the console with:
@@ -105,6 +113,7 @@ Otherwise, find installation instructions below for your operating system.
 has_bash <- Sys.which('bash') != '' && .Platform$OS.type != 'windows'
 ```
 
+
 ### Git already installed?
 
 Go to the shell (Appendix \@ref(shell)). Enter `which git` to request the path
@@ -135,6 +144,8 @@ Install [Git for Windows](https://git-for-windows.github.io/), also known as
 `msysgit` or "Git Bash", to get Git in addition to some other useful tools, such
 as the Bash shell. Yes, all those names are totally confusing, but you might
 encounter them elsewhere and I want you to be well-informed.
+
+![Screenshot showing Git download](img/git_install_small.png)
 
 We like this because Git for Windows leaves the Git executable in a conventional
 location, which will help you and other programs, e.g. RStudio, find it and use
@@ -204,6 +215,8 @@ git config --global --list
 ```
 
 substituting your name and **the email associated with your GitHub account**.
+
+![Screenshot showing Git download](img/update_names.png)
 
 The [usethis package](https://usethis.r-lib.org) offers an alternative approach.
 You can set your Git user name and email from within R:
