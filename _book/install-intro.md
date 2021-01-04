@@ -43,18 +43,15 @@ viewable the invite is clutch.
 
 ## Install or upgrade R and RStudio
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  comment = "#>",
-  collapse = TRUE
-)
-```
+
 
 1. Install a pre-compiled binary of R for your OS from here:  
     <https://cloud.r-project.org>  
     Already have R installed? **Hold on: This is a great time to make sure your R installation is current.** Check your current version like so:
-    ```{r}
+    
+    ```r
     R.version.string
+    #> [1] "R version 4.0.3 (2020-10-10)"
     ```
 1. Install RStudio Desktop.  
    Already have RStudio? **Hold on: This is a great time to upgrade to the latest version.** Download it here:  
@@ -63,7 +60,8 @@ knitr::opts_chunk$set(
 
 From RStudio with `Packages -> Update` or from the console with:
 
-    ```{r, eval = FALSE}
+    
+    ```r
     update.packages(ask = FALSE, checkBuilt = TRUE)
     ```
 
