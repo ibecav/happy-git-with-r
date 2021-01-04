@@ -11,20 +11,11 @@ rmd_files: [
   "overview.Rmd",
 
   "install-intro.Rmd",
-  "install-git.Rmd",
-  "install-introduce-self-git.Rmd",
-  "install-git-client.Rmd",
 
   "connect-intro.Rmd",
-  "connect-git-github.Rmd",
-  "connect-credential-caching.Rmd",
-  "connect-ssh-keys.Rmd",
-  "connect-rstudio-git-github.Rmd",
-  "connect-can-rstudio-use-git.Rmd",
-  "connect-troubleshooting.Rmd",
 
   "usage-intro.Rmd",
-  "usage-new-project-github-first.Rmd",
+
   "usage-existing-project-github-first.Rmd",
   "usage-existing-project-github-last.Rmd",
   "usage-rmd-and-github.Rmd",
@@ -64,6 +55,9 @@ rmd_files: [
   "contributors.Rmd",
   "appendix.Rmd",
   "shell.Rmd",
+  "connect-troubleshooting.Rmd",
+  "connect-credential-caching.Rmd",
+  "connect-ssh-keys.Rmd",
   "github-api-tokens.Rmd",
   "comic-relief.Rmd",
 
