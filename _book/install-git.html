@@ -148,11 +148,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="install-intro.html"><a href="install-intro.html"><i class="fa fa-check"></i><b>2</b> Installation – Half the battle</a><ul>
 <li class="chapter" data-level="2.1" data-path="install-intro.html"><a href="install-intro.html#register-an-account-with-github.-its-free"><i class="fa fa-check"></i><b>2.1</b> Register an account with GitHub. It’s free!</a></li>
 <li class="chapter" data-level="2.2" data-path="install-intro.html"><a href="install-intro.html#install-or-upgrade-r-and-rstudio"><i class="fa fa-check"></i><b>2.2</b> Install or upgrade R and RStudio</a></li>
+<li class="chapter" data-level="2.3" data-path="install-intro.html"><a href="install-intro.html#install-git"><i class="fa fa-check"></i><b>2.3</b> Install Git</a></li>
+<li class="chapter" data-level="2.4" data-path="install-intro.html"><a href="install-intro.html#git-already-installed"><i class="fa fa-check"></i><b>2.4</b> Git already installed?</a></li>
+<li class="chapter" data-level="2.5" data-path="install-intro.html"><a href="install-intro.html#install-git-windows"><i class="fa fa-check"></i><b>2.5</b> Windows</a></li>
+<li class="chapter" data-level="2.6" data-path="install-intro.html"><a href="install-intro.html#macos"><i class="fa fa-check"></i><b>2.6</b> macOS</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="install-git.html"><a href="install-git.html"><i class="fa fa-check"></i><b>3</b> Install Git</a><ul>
-<li class="chapter" data-level="3.1" data-path="install-git.html"><a href="install-git.html#git-already-installed"><i class="fa fa-check"></i><b>3.1</b> Git already installed?</a></li>
-<li class="chapter" data-level="3.2" data-path="install-git.html"><a href="install-git.html#install-git-windows"><i class="fa fa-check"></i><b>3.2</b> Windows</a></li>
-<li class="chapter" data-level="3.3" data-path="install-git.html"><a href="install-git.html#macos"><i class="fa fa-check"></i><b>3.3</b> macOS</a></li>
+<li class="chapter" data-level="3" data-path="install-intro.html"><a href="install-intro.html#install-git"><i class="fa fa-check"></i><b>3</b> Install Git</a><ul>
+<li class="chapter" data-level="3.1" data-path="install-git.html"><a href="install-git.html"><i class="fa fa-check"></i><b>3.1</b> Git already installed?</a></li>
+<li class="chapter" data-level="3.2" data-path="install-intro.html"><a href="install-intro.html#install-git-windows"><i class="fa fa-check"></i><b>3.2</b> Windows</a></li>
+<li class="chapter" data-level="3.3" data-path="install-git.html"><a href="install-git.html#macos-1"><i class="fa fa-check"></i><b>3.3</b> macOS</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="hello-git.html"><a href="hello-git.html"><i class="fa fa-check"></i><b>4</b> Introduce yourself to Git</a></li>
 <li class="chapter" data-level="5" data-path="git-client.html"><a href="git-client.html"><i class="fa fa-check"></i><b>5</b> Install a Git client</a><ul>
@@ -187,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="credential-caching.html"><a href="credential-caching.html#activating-a-git-credential-helper"><i class="fa fa-check"></i><b>7.3</b> Activating a Git credential helper</a><ul>
 <li class="chapter" data-level="7.3.1" data-path="credential-caching.html"><a href="credential-caching.html#you-might-not-need-to-do-anything"><i class="fa fa-check"></i><b>7.3.1</b> You might not need to do anything!</a></li>
 <li class="chapter" data-level="7.3.2" data-path="credential-caching.html"><a href="credential-caching.html#windows"><i class="fa fa-check"></i><b>7.3.2</b> Windows</a></li>
-<li class="chapter" data-level="7.3.3" data-path="credential-caching.html"><a href="credential-caching.html#macos-1"><i class="fa fa-check"></i><b>7.3.3</b> macOS</a></li>
+<li class="chapter" data-level="7.3.3" data-path="credential-caching.html"><a href="credential-caching.html#macos-2"><i class="fa fa-check"></i><b>7.3.3</b> macOS</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="ssh-keys.html"><a href="ssh-keys.html"><i class="fa fa-check"></i><b>8</b> Set up keys for SSH</a><ul>
@@ -502,15 +506,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 (maybe).</p>
 <p>If there’s any chance it’s installed already, verify that, rejoice, and skip this step.</p>
 <p>Otherwise, find installation instructions below for your operating system.</p>
-<div id="git-already-installed" class="section level2">
+<div id="git-already-installed-1" class="section level2">
 <h2><span class="header-section-number">3.1</span> Git already installed?</h2>
 <p>Go to the shell (Appendix <a href="shell.html#shell">A</a>). Enter <code>which git</code> to request the path
 to your Git executable:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="install-git.html#cb3-1"></a><span class="fu">which</span> git</span>
-<span id="cb3-2"><a href="install-git.html#cb3-2"></a><span class="co">## /usr/bin/git</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="install-git.html#cb8-1"></a><span class="fu">which</span> git</span>
+<span id="cb8-2"><a href="install-git.html#cb8-2"></a><span class="co">## /usr/bin/git</span></span></code></pre></div>
 <p>and <code>git --version</code> to see its version:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="install-git.html#cb4-1"></a><span class="fu">git</span> --version</span>
-<span id="cb4-2"><a href="install-git.html#cb4-2"></a><span class="co">## git version 2.24.3 (Apple Git-128)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="install-git.html#cb9-1"></a><span class="fu">git</span> --version</span>
+<span id="cb9-2"><a href="install-git.html#cb9-2"></a><span class="co">## git version 2.24.3 (Apple Git-128)</span></span></code></pre></div>
 <p>If you are successful, that’s great! You have Git already. No need to install!
 Move on.</p>
 <p>If, instead, you see something more like <code>git: command not found</code>, keep
@@ -542,16 +546,16 @@ otherwise, follow this convention.</li>
 Git clients we recommend (chapter <a href="git-client.html#git-client">5</a>).</p>
 <p>FYI, this appears to be equivalent to what you would download from here: <a href="https://git-scm.com/download/" class="uri">https://git-scm.com/download/</a>.</p>
 </div>
-<div id="macos" class="section level2">
+<div id="macos-1" class="section level2">
 <h2><span class="header-section-number">3.3</span> macOS</h2>
 <p><strong>Option 1</strong> (<em>highly recommended</em>): Install the Xcode command line tools (<strong>not all of Xcode</strong>), which includes Git.</p>
 <p>Go to the shell and enter one of these commands to elicit an offer to install
 developer command line tools:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="install-git.html#cb5-1"></a><span class="fu">git</span> --version</span>
-<span id="cb5-2"><a href="install-git.html#cb5-2"></a><span class="fu">git</span> config</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="install-git.html#cb10-1"></a><span class="fu">git</span> --version</span>
+<span id="cb10-2"><a href="install-git.html#cb10-2"></a><span class="fu">git</span> config</span></code></pre></div>
 <p>Accept the offer! Click on “Install”.</p>
 <p>Here’s another way to request this installation, more directly:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="install-git.html#cb6-1"></a><span class="ex">xcode-select</span> --install</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="install-git.html#cb11-1"></a><span class="ex">xcode-select</span> --install</span></code></pre></div>
 <p>We just happen to find this Git-based trigger apropos.</p>
 <p>Note also that, after upgrading macOS, you might need to re-do the above and/or
 re-agree to the Xcode license agreement. We have seen this cause the RStudio Git

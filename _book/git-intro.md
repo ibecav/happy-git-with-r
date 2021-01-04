@@ -1,19 +1,509 @@
-# (PART) Git fundamentals {-} 
-
-# Some Git basics {#git-intro .unnumbered}
+# Some Git basics {#git-intro}
 
 We've told you shockingly little about Git so far! This is by design.
 
 We find that actual usage, in the course of your work, is the most effective way
-to build up a useful mental model for Git. In live workshops, we strive to
-introduce the most important basic ideas in the context of our guided
-activities. Self-learners can achieve the same by working through the "batteries
-included" guides earlier in the previous sections.
-
-However, building on this early success, now is the perfect time to explicitly
-define some Git vocabulary. We also want to help you link Git concepts to data
-science tasks and projects.
-
-This part collects anything we've written about core Git concepts. It is a work
-in progress and is conceived as a complement to the many excellent
+to build up a useful mental model for Git. However, building on this early
+success, now is the perfect time to explicitly define some Git vocabulary. We
+also want to help you link Git concepts to data science tasks and projects. This
+part collects anything we've written about core Git concepts. It is a work in
+progress and is conceived as a complement to the many excellent 
 [external resources for Git](#resources), which we have no desire to re-invent.
+
+
+## Repo, commit, diff, tag {#git-basics}
+
+### Repos or repositories
+
+Git is a version control system whose original purpose was to help groups of
+developers work collaboratively on big software projects. Git manages the
+evolution of a set of files -- called a __repository__ or __repo__ -- in a
+highly structured way. Historically, these files would have consisted of source
+code and the instructions for how to build an application from its source.
+
+Git has been re-purposed by the data science community 
+[@Ram2013; @git-for-humans; @ten-simple-rules-git]. 
+We use it to manage the motley collection of files that make up typical data
+analytical projects, which consist of data, figures, reports, and, yes, some
+source code.
+
+For new or existing projects, we recommend that you:
+
+  * Dedicate a local directory or folder to it.
+  * Make it an RStudio Project. *Optional but recommended; obviously only applies to projects involving R and users of RStudio.*
+  * Make it a Git repository.
+  
+This setup happens once per project and can happen at project inception or at
+any later point. Chances are your existing projects each already live in a
+dedicated directory. Making such a directory an RStudio Project and Git
+repository boils down to allowing those applications to leave notes for
+themselves in hidden files or directories. The project is still a regular
+directory on your computer, that you can locate, name, move, and generally
+interact with as you wish. You don't have to handle it with special gloves!
+
+The daily workflow is probably not dramatically different from what you do
+currently. You work in the usual way, writing R scripts or authoring reports in
+LaTeX or R Markdown. But instead of only *saving* individual files, periodically
+you make a __commit__, which takes a snapshot of all the files in the entire
+project. If you have ever versioned a file
+[by adding your initials or the date](http://www.phdcomics.com/comics/archive.php?comicid=1531), 
+you have effectively made a commit, albeit only for a single file. It is a
+version that is significant to you and that you might want to inspect or revert
+to later. Periodically, you push commits to GitHub. This is like sharing a
+document with colleagues on DropBox or sending it out as an email attachment. By
+pushing to GitHub, you make your work and all your accumulated progress
+accessible to others.
+  
+This is a moderate change to your normal, daily workflow. It feels weird at
+first, but quickly becomes second nature.
+
+### Commits, diffs, and tags
+
+We now connect the fundamental concepts of Git to the data science workflow:
+
+  * repository
+  * commit
+  * diff
+
+Recall that a repository or repo is just a directory of files that Git manages
+holistically. A commit functions like a snapshot of all the files in the repo,
+at a specific moment. Under the hood, that is not exactly how Git implements
+things. Although mental models don't have to be accurate in order to be useful,
+in this case it helps to align the two.
+
+<div class="figure">
+<img src="img/commit-diff-sha-tag.png" alt="\label{fig:commit-diff-sha-tag}Partial commit history for our iris example, highlighting diffs, commit messages, SHAs, and tags." width="100%" />
+<p class="caption">(\#fig:commit-diff-sha-tag)\label{fig:commit-diff-sha-tag}Partial commit history for our iris example, highlighting diffs, commit messages, SHAs, and tags.</p>
+</div>
+
+Figure \@ref(fig:commit-diff-sha-tag) is a look at a fictional analysis of the
+iris data, focusing on the evolution of a script, `iris.R`. Consider version A
+of this file and a modified version, version B. Assume that version A was part
+of one Git commit and version B was part of the next commit. The set of
+differences between A and B is called a "diff" and Git users contemplate diffs a
+lot. Diff inspection is how you re-explain to yourself how version A differs
+from version B. Diff inspection is not limited to adjacent commits. You can
+inspect the diffs between any two commits.
+
+In fact, Git's notion of any specific version of `iris.R` is as an accumulation
+of diffs. If you go back far enough, you find the commit where the file was
+created in the first place. Every later version is stored by Git as that initial
+version, plus all the intervening diffs in the history that affect the file.
+We'll set these internal details aside now, but understanding the importance of
+these deltas will make Git's operations less baffling in the long run.
+
+So, by looking at diffs, it's easy to see how two snapshots differ, but what
+about the why?
+
+Every time you make a commit you must also write a short __commit message__.
+Ideally, this conveys the motivation for the change. Remember, the diff will
+show the content. When you revisit a project after a break or need to digest
+recent changes made by a colleague, looking at the __history__, by reading
+commit messages and skimming through diffs, is an extremely efficient way to get
+up to speed. Figure \@ref(fig:commit-diff-sha-tag) shows the messages associated
+with the last three commits.
+
+Every commit needs some sort of nickname, so you can identify it. Git does this
+automatically, assigning each commit what is called a SHA, a seemingly random
+string of 40 letters and numbers (it is not, in fact, random but is a SHA-1
+checksum hash of the commit). Though you will be exposed to these, you don't
+have to handle them directly very often and, when you do, usually the first 7
+characters suffice. The commit messages in Figure \@ref(fig:commit-diff-sha-tag)
+are prefixed by such truncated SHAs. You can also designate certain snapshots as
+special with a __tag__, which is a name of your choosing. In a software project,
+it is typical to tag a release with its version, e.g., "v1.0.3". For a
+manuscript or analytical project, you might tag the version submitted to a
+journal or transmitted to external collaborators. Figure
+\@ref(fig:commit-diff-sha-tag) shows a tag, "draft-01", associated with the last
+commit.
+
+## Git commands {#git-commands}
+
+A collection of some of the Git commands that have been largely going on under
+the hood. We've emphasized early workflows that are possible in RStudio. But all
+of this and much more can be done from the command line. This list is here
+mostly so we can consult it during live workshops if needed.
+
+*Unless you use the [GitHub API](https://developer.github.com/v3/), 
+most of the GitHub bits really have to be done from the browser.*
+
+New local git repo from a repo on GitHub:
+
+``` bash
+git clone https://github.com/jennybc/happy-git-with-r.git
+```
+
+Check the remote was cloned successfully:
+
+``` bash
+git remote --verbose
+```
+
+Stage local changes, commit:
+
+``` bash
+git add foo.txt
+git commit --message "A commit message"
+```
+
+Check on the state of the Git world:
+
+``` bash
+git status
+git log
+git log --oneline
+```
+
+Compare versions:
+
+``` bash
+git diff
+```
+
+Add a remote to existing local repo:
+
+``` bash
+git remote add origin https://github.com/jennybc/happy-git-with-r
+git remote --verbose
+git remote show origin
+```
+
+Push local master to GitHub master and have local master track master on
+GitHub:
+
+``` bash
+git push --set-upstream origin master
+## shorter form
+git push -u origin master
+## you only need to set upstream tracking once!
+```
+
+Regular push:
+
+``` bash
+git push 
+## the above usually implies (and certainly does in our tutorial)
+git push origin master
+## git push [remote-name] [branch-name]
+```
+
+Pull commits from GitHub:
+
+``` bash
+git pull
+```
+
+Pull commits and don't let it put you in a merge conflict pickle:
+
+``` bash
+git pull --ff-only
+```
+
+Fetch commits
+
+``` bash
+git fetch
+```
+
+Switch to a branch
+
+``` bash
+git checkout [branch-name]
+```
+
+Checking remote and branch tracking
+
+``` bash
+git remote -v
+git branch -vv
+```
+
+## Branches {#git-branches}
+
+Branching means that you take a detour from the main stream of development and
+do work without changing the main stream. It allows one or many people to work
+in parallel without overwriting each other's work.
+
+Branching in git is very lightweight, which means creating a branch and
+switching between branches is nearly instantaneous. This means git encourages
+workflows which create small branches for exploration or new features, often
+merging them back together quickly.
+
+### Create a new branch
+
+You can create a new branch with `git branch`, then checkout the branch with
+`git checkout`. To distinguish it from the main stream of development,
+presumably on `master`, we'll call this a "feature branch".
+
+```shell
+git branch issue-5
+git checkout issue-5
+```
+
+You can also use the shortcut `git checkout -b issue-5` to create and checkout
+the branch all at once.
+
+Once you have switched to a branch, you can commit to it as usual.
+
+### Switching branches
+
+You use `git checkout` to switch between branches.
+
+But what do you do if you are working on a branch and need to switch,
+but the work on the current branch is not complete? One option is the 
+[Git stash](https://git-scm.com/book/en/v2/ch00/_git_stashing), 
+but generally a better option is to safeguard the current state with a temporary
+commit. Here I use "WIP" as the commit message to indicate work in progress.
+
+```shell
+git commit --all -m "WIP"
+git checkout master
+```
+
+Then when you come back to the branch and continue your work, you need to undo
+the temporary commit by [resetting](#reset) your state. Specifically, we want a
+mixed reset. This is "working directory safe", i.e. it does not affect the state
+of any files. But it does peel off the temporary WIP commit. Below, the
+reference `HEAD^` says to roll the commit state back to the parent of the
+current commit (`HEAD`).
+
+```shell
+git checkout issue-5
+git reset HEAD^
+```
+
+If this is difficult to remember, or to roll the commit state back to a
+different previous state, the reference can also be given as the SHA of a
+specific commit, which you can see via `git log`.
+
+### Merging a branch
+
+Once you have done your work and committed it to the feature branch, you can
+switch back to `master` and merge the feature branch.
+
+```shell
+git checkout master
+git merge issue-5
+```
+
+### Dealing with conflicts
+
+Most of the time, the merge will go smoothly. However if both the branches you
+are merging changed the same part of the same file you will get a merge
+conflict.
+
+```shell
+git merge issue-5
+# Auto-merging index.html
+# CONFLICT (content): Merge conflict in index.html
+# Automatic merge failed; fix conflicts and then commit the result.
+```
+
+The first thing to do is **NOT PANIC**. Merge conflicts are not the end of the
+world and most are relatively small and straightforward to resolve.
+
+The first step to solving a merge conflict is determining which files are in
+conflict, which you can do with `git status`:
+
+```shell
+git status
+# On branch master
+# You have unmerged paths.
+#   (fix conflicts and run "git commit")
+# 
+# Unmerged paths:
+#   (use "git add <file>..." to mark resolution)
+# 
+#     both modified:      index.html
+# 
+# no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+So this shows only `index.html` is unmerged and needs to be resolved. We can
+then open the file to see what lines are in conflict.
+
+```html
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> issue-5:index.html
+```
+
+In this conflict, the lines between `<<<<<< HEAD:index.html` and `======` are
+the content from the branch you are currently on. The lines between `=======`
+and `>>>>>>> issue-5:index.html` are from the feature branch we are merging.
+
+To resolve the conflict, edit this section until it reflects the state you want
+in the merged result. Pick one version or the other or create a hybrid. Also
+remove the conflict markers `<<<<<<`, `======` and `>>>>>>`.
+
+```html
+<div id="footer">
+please contact us at email.support@github.com
+</div>
+```
+
+Now run `git add index.html` and `git commit` to finalize the merge. CONFLICTS
+RESOLVED.
+
+#### Bailing out
+
+If, during the merge, you get confused about the state of things or make a
+mistake, use `git merge --abort` to abort the merge and go back to the state
+prior to running `git merge`. Then you can try to complete the merge again.
+
+Git Basic Branching and Merging:
+
+<https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging>
+
+## Remotes {#git-remotes}
+
+Remote repositories are versions of your project that are hosted on the Internet
+or another network. A single project can have 1, 2 or even hundreds of remotes.
+You pull others changes from remotes and push your changes to remotes.
+
+
+
+### Listing what remotes exist
+
+`git remote` lists the names of available remotes, but usually it is more useful
+to see what URLs each note corresponds to (with `-v`).
+
+
+```bash
+git remote -v
+```
+
+```
+## origin	https://github.com/ibecav/happy-git-with-r (fetch)
+## origin	https://github.com/ibecav/happy-git-with-r (push)
+## upstream	https://github.com/jennybc/happy-git-with-r.git (fetch)
+## upstream	https://github.com/jennybc/happy-git-with-r.git (push)
+```
+
+### Adding a new remote
+
+`git clone` automatically adds a new remote, so often you do not need to do this
+manually initially. However, after the initial clone, it is often useful to add
+additional remotes.
+
+Use `git remote add` to add a new remote
+
+```shell
+git remote add happygit https://github.com/jennybc/happy-git-with-r.git
+```
+
+Note: when you add a remote you give it a nickname (here `happygit`), which you
+can use in git commands in place of the entire URL.
+
+```shell
+git fetch happygit
+```
+
+Sidebar on nicknames: there is a strong convention to use `origin` as the
+nickname of your main remote. At this point, it is common for the main remote of
+a repo to be hosted on GitHub (or GitLab or Bitbucket). It is tempting to use a
+more descriptive nickname (such as `github`), but you might find that following
+convention is worth it. It makes your setup easier for others to understand and
+for you to transfer information that you read in documentation, on Stack
+Overflow, or in blogs.
+
+A common reason to add a second remote is when you have done a "fork and clone"
+of a repo and your personal copy is set up as the `origin` remote. Eventually
+you will want to pull changes from the original repository. It is common to use
+`upstream` as the nickname for this remote.
+
+### Fetching data from remotes
+
+To get new data from a remote use `git fetch <remote_name>`. This retrieves the
+data locally, but importantly it does _not_ change the state of your repository
+or your files in any way. To incorporate the data into your repository, you need
+to merge or rebase your project with the remote project.
+
+```shell
+# Fetch the data
+git fetch happygit
+
+# Now merge it with our local master
+git merge happygit/master master
+
+# git pull is a shortcut which does the above in one command
+git pull happygit master
+```
+
+For more detail on `git pull` workflows, see \@ref(pull-tricky).
+
+### Pushing to remotes
+
+Use `git push <remote> <branch>` to push your local changes to the `<branch>`
+branch on the `<remote>` remote.
+
+```shell
+# push my local changes to the origin remote's master branch
+git push origin master
+
+# push my local changes to the happygit remote's test branch
+git push happygit test
+```
+
+### Renaming and changing remotes
+
+`git remote rename` can be used to rename a remote
+
+```shell
+git remote rename happygit hg
+```
+
+`git remote set-url` can be used to change the URL for a remote. This is
+sometimes useful if you initially set up a remote using https, but now want to
+use the SSH URL instead (or vise versa).
+
+```shell
+git remote set-url happygit git@github.com:jennybc/happy-git-with-r.git
+```
+
+One fairly common workflow is you initially cloned a repository on GitHub
+locally (without forking it), but now want to create your own fork and push
+changes to it. As described earlier, it is common to call the main repository
+`upstream` and to call your fork `origin`. So, in this case, you need to first
+rename the existing remote (from `origin` to `upstream`). Then add your fork as
+a new remote, with the name `origin`.
+
+```shell
+git remote rename origin upstream
+git remote add origin git@github.com:jimhester/happy-git-with-r.git
+```
+
+### Upstream tracking branches
+
+It is possible to set the branch on the remote each of your local remotes
+corresponds to. `git clone` sets this up automatically, so for your own master
+branch this is not something you will run into. However by default if you create
+a new branch and try to push to it you will see something like this.
+
+```shell
+git checkout -b mybranch
+git push
+# fatal: The current branch foo has no upstream branch.
+# To push the current branch and set the remote as upstream, use
+#
+#     git push --set-upstream origin foo
+```
+
+You can do as the error message says and explicitly set the upstream branch with
+`--set-upstream`. However I would recommend instead changing the default
+behavior of `push` to automatically set the upstream branch to the branch with
+the same name on the remote.
+
+You can do this by changing the git `push.default` option to `current`.
+
+```shell
+git config --global push.default current
+```
+
+See also Working with Remotes:
+
+<https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes>
