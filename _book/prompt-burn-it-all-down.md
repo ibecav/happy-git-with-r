@@ -2,11 +2,6 @@
 
 This is a highly inelegant, but effective technique for disaster recovery.
 
-It has been immortalized in an xkcd comic, so it must be ok:
-
-  * <https://xkcd.com/1597/>
-  * <http://explainxkcd.com/wiki/index.php/1597:_Git>
-
 Basic idea:
 
   * Commit early and often.

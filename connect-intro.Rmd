@@ -230,11 +230,8 @@ commit it, and push, using the commands shown above. If this "just works" and
 shows up on GitHub, rejoice. You are ready to work with GitHub via HTTPS without
 constantly re-entering your credentials. You are ready to delete this toy repo.
 
-If you are challenged for your username and password *again*, do one of the
-following:
-
-  * Cache credentials for HTTPS access, chapter \@ref(credential-caching).
-  * Set up SSH keys, chapter \@ref(ssh-keys).
+If you are challenged for your username and password *again*, cache credentials
+for HTTPS access, chapter \@ref(credential-caching).
 
 Now is the perfect time to do this, since you have a functioning test repo.
 
@@ -369,10 +366,8 @@ First, make another small change locally and push again, to make sure we've
 given your system every opportunity to cache your credentials and retrieve them
 from the cache. It might "just work".
 
-Are you still challenged? Pick one:
-
-  * Credential caching for HTTPS access, chapter \@ref(credential-caching).
-  * Set up SSH keys, chapter \@ref(ssh-keys).
+Are you still challenged? Credential caching for HTTPS access, chapter
+\@ref(credential-caching).
 
 Now is the perfect time to do this, since you have a functioning test repo.
 

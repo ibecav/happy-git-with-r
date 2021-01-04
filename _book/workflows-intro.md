@@ -340,4 +340,1312 @@ your own terms. This is much nicer than trying to do a tricky merge or rebase in
 a frustrated panic, because you need to push your work to GitHub at the end of
 the day.
 
+## Pull, but you have local work {#pull-tricky}
+
+Problem: You want to pull changes from upstream, but you have done some new work
+locally since the last time you pulled. This often comes up because
+[what you actually want to do is *push*](#push-rejected), but Git won't let you
+until you first incorporate the upstream changes.
+
+For the sake of simplicity, assume we're dealing with the `master` branch and the remote is called `origin`.
+
+Recent commit history of `origin/master`:
+
+``` sh
+A--B--C
+```
+
+Recent commit history of the local `master` branch:
+
+``` sh
+A--B--D
+```
+
+or maybe
+
+``` sh
+A--B--(uncommitted changes)
+```
+
+Your goal: get commit `C` into your local branch, while retaining the work in commit `D` or your uncommitted changes.
+
+  * Local state is `A--B--(uncommitted changes)`: You could use `git stash`. Or
+    you could just make a commit to simplify your life (see next bullet).
+  * Local state is `A--B--D`: You can get to `A--B--C--D` or `A--B--(something
+    that includes C and D)`.
+  * Local state is `A--B--D--(uncommitted changes)`: You could just make a
+    commit -- a new one or amend `D` -- to simplify your life (see previous
+    bullet).
+  
+We prioritize simple approaches that are good for early Git use, but mention
+nicer long-term alternatives.
+
+## Local work is uncommitted
+
+Remote state is `A--B--C`.  
+Local state is `A--B--(uncommitted changes)`.
+
+#### Happy simple cases
+
+There are two happy scenarios, in which `git pull` will "just work":
+
+  * You've introduced completely new files that don't exist in the remote branch
+    and, therefore, cannot possibly have conflicting changes. You're in luck!
+    You can just `git pull`.
+  * The files affected by your local work have ZERO overlap with the files
+    affected by the changes you need to pull from the remote. You're also in
+    luck! You can just `git pull`.
+  
+Summary of these happy `git pull` scenarios:
+
+``` sh
+                 Remote: A--B--C
+
+Local before 'git pull': A--B--(uncommitted changes)
+ Local after 'git pull': A--B--C--(uncommitted changes)
+```
+
+What has actually happened here is that `git pull` resulted in a *fast-forward
+merge*, i.e. we placed commit `C` right on the end of your history. This would
+also be the case in the simpler situation where recent local history was just
+`A--B`, i.e. you had not added any local work since the last sync up with
+`origin/master`.
+
+#### `git stash` works, sometimes
+
+If your changes affect a file (`foo.R` in the example below) that has also been
+changed in commit `C`, you cannot `git pull`. It doesn't hurt to try, but you
+will fail and it will look something like this:
+
+``` sh
+jenny@2015-mbp ethel $ git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 1), reused 1 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From github.com:jennybc/ethel
+   db046b4..2d33a6f  master     -> origin/master
+Updating db046b4..2d33a6f
+error: Your local changes to the following files would be overwritten by merge:
+        foo.R
+Please commit your changes or stash them before you merge.
+Aborting
+```
+
+Now what? First, you must safeguard your local changes by either stashing or
+committing them. (I personally would choose to commit and execute a workflow
+described in \@ref(git-pull-with-local-commits).)
+
+I am not a big fan of `git stash`; I think it's usually better to take every
+possible chance to solidify your skills around core concepts and operations,
+e.g., make a commit, possibly in a branch. But if you want to use `git stash`,
+this opportunity is as good as it gets.
+
+`git stash` is a way to temporarily store some changes to get them out of the
+way. Now you can do something else, without a lot of fuss. In our case, "do
+something else" is to get the upstream changes with a nice, simple `git pull`.
+Then you reapply and delete the stash and pick up where you left off.
+
+For more details about stashing, I recommend
+
+  * The stashing coverage in the "Filesystem interactions" chapter of Git in
+    Practice ([book website](https://gitinpractice.com) or 
+    [read on GitHub](https://github.com/GitInPractice/GitInPractice#readme))
+  * [7.3 Git Tools - Stashing and Cleaning](https://git-scm.com/book/en/v2/Git-Tools-Stashing-and-Cleaning) in
+    [Pro Git](https://git-scm.com/book/en/v2).
+
+Here's the best case scenario for "stash, pull, unstash" in the example above:
+
+``` bash
+git stash save
+git pull
+git stash pop
+```
+
+And here's the output from our example:
+
+``` sh
+jenny@2015-mbp ethel $ git stash save
+Saved working directory and index state WIP on master: db046b4 Merge branch 'master'of github.com:jennybc/ethel
+
+jenny@2015-mbp ethel $ git pull
+Updating db046b4..2d33a6f
+Fast-forward
+ foo.R | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+jenny@2015-mbp ethel $ git stash pop
+Auto-merging foo.R
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   foo.R
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (012c4dcd3a4c3af6757c4c3ca99a9eaeff1eb2a4)
+```
+
+That is what success looks like. You've achieved this:
+
+``` sh
+      Remote: A--B--C
+
+Local before: A--B--(uncommitted changes)
+ Local after: A--B--C--(uncommitted changes)
+```
+
+As above, we have just enjoyed a fast-forward merge, made possible by
+temporarily stashing then unstashing the uncommitted local changes.
+
+#### `git stash` with conflicts
+
+If your local changes have some overlap with changes you are pulling, you will,
+instead get a merge conflict from `git stash pop`. Now you have some remedial
+work to do. In this case, you have gained nothing by using `git stash` in the
+first place, which explains my general lack of enthusiasm for `git stash`.
+
+Here's how to execute the `git stash` workflow in our example, in the face of
+conflicts (based on
+[this Stack Overflow answer](https://stackoverflow.com/a/27382210/2825349)):
+
+``` sh
+jenny@2015-mbp ethel $ git stash save
+Saved working directory and index state WIP on master: 2d33a6f Back to 5
+
+jenny@2015-mbp ethel $ git pull
+Updating 2d33a6f..1eddf9e
+Fast-forward
+ foo.R | 1 +
+ 1 file changed, 1 insertion(+)
+ 
+jenny@2015-mbp ethel $ git stash pop
+Auto-merging foo.R
+CONFLICT (content): Merge conflict in foo.R
+```
+
+At this point, you must resolve the merge conflict (*future link*). Literally,
+at each locus of conflict, pick one version or the other (upstream or stashed)
+or create a hybrid yourself. Remove the all the markers inserted to demarcate
+the conflicts. Save.
+
+Since `git stash pop` did not go smoothly, we need to manually reset (*future
+link*) and delete the stash to finish.
+
+``` sh
+jenny@2015-mbp ethel $ git reset
+Unstaged changes after reset:
+M       foo.R
+
+jenny@2015-mbp ethel $ git stash drop
+Dropped refs/stash@{0} (7928db50288e9b4d934803b6b451a000fd7242ed)
+```
+
+Phew, we are done. We've achieved this:
+
+``` sh
+      Remote: A--B--C
+
+Local before: A--B--(uncommitted changes)
+ Local after: A--B--C--(uncommitted changes*)
+```
+
+The asterisk on `uncommitted changes*` indicates that your uncommitted changes
+might now reflect adjustments made when you resolved the conflicts.
+
+### Local work is committed {#git-pull-with-local-commits}
+
+Remote state is `A--B--C`.  
+Local state is `A--B--D`.
+
+#### Pull (fetch and merge)
+
+The simplest option is to fetch the commits from upstream and merge them, which
+is what `git pull` does. This is a good option if you're new to Git. It leads to
+a messier history, but when you are new, this is the least of your worries.
+Merge, be happy, and carry on.
+
+Here is the best case, no-merge-conflicts version of `git pull`:
+
+``` sh
+jenny@2015-mbp ethel $ git pull
+
+< YOU WILL PROBABLY BE KICKED INTO AN EDITOR HERE RE: MERGE COMMIT MESSAGE! >
+
+Merge made by the 'recursive' strategy.
+ README.md | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+```
+
+Depending on your version of Git, your config, and your use of a GUI, you might
+be required to confirm/edit a commit message for the merge commit.
+
+Or what if things don't go this smoothly? If commit `C` (on the remote) and
+commit `D` (local) have changes to the same parts of one or more files, Git may
+not be able to automatically merge and you will get merge conflicts. It will
+look something like this:
+
+``` sh
+jenny@2015-mbp ethel $ git pull
+Auto-merging foo.R
+CONFLICT (content): Merge conflict in foo.R
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+You must resolve these conflicts (*future link*). Literally, at each locus of
+conflict, pick one version or the other (upstream or local) or create a hybrid
+yourself. Remove the all the markers inserted to demarcate the conflicts. Save.
+
+Mark the affected file `foo.R` as resolved via `git add` and make an explicit
+`git commit` to finalize this merge.
+
+``` sh
+jenny@2015-mbp ethel $ git add foo.R
+jenny@2015-mbp ethel $ git commit
+[master 20b297b] Merge branch 'master' of github.com:jennybc/ethel
+```
+
+Again, do not be surprised if, during `git commit`, you find yourself in an
+editor, confirming/editing the commit message for the merge commit.
+
+We've achieved this:
+
+``` sh
+      Remote: A--B--C
+
+Local before: A--B--D
+ Local after: A--B--D--(merge commit)
+                  \_C_/
+```
+
+#### Pull and rebase
+
+`git pull --rebase` creates a nicer history than `git pull` when integrating
+local and remote commits. It avoids a merge commit, so the history is less
+cluttered and is linear. It can make merge conflicts more onerous to resolve,
+which is why I still recommend `git pull` as the entry-level solution.
+
+Here is the best case, no-merge-conflicts version of `git pull --rebase`:
+
+```
+jenny@2015-mbp ethel $ git pull --rebase
+First, rewinding head to replay your work on top of it...
+Applying: Take max
+```
+
+Notice that you were NOT kicked into an editor to fiddle with the commit message
+for the merge commit, because there is no merge commit! This is the beauty of
+rebasing.
+
+We've achieved this:
+
+``` sh
+      Remote: A--B--C
+
+Local before: A--B--D
+ Local after: A--B--C--D
+```
+
+It is as if we pulled the upstream work in commit `C`, then did the local work
+embodied in commit `D`. We have no cluttery merge commits and a linear history.
+Nice!
+
+The bad news: As with plain vanilla `git pull`, it is still possible to get
+merge conflicts with `git pull --rebase`. If you have multiple local commits,
+you can even find yourself resolving conflicts over and over, as these commits
+are sequentially replayed. Hence this is a better fit for more experienced Git
+users and in situations where conflicts are unlikely (those tend to be
+correlated, actually).
+
+At this point, if you try to do `git pull --rebase` and get bogged down in merge
+conflicts, I recommend `git rebase --abort` to back out. For now, just pursue a
+more straightforward strategy.
+
+### Other approaches
+
+There are many more ways to handle this situation, which you can discover and
+explore as you gain experience and start to care more about the history. We
+sketch some ideas here.
+
+#### Use a temporary branch for local work
+
+Recall:  
+Remote state is `A--B--C`.  
+Local state is `A--B--(uncommitted changes)`.
+
+This is an alternative to the stash workflow that has the advantage of giving
+you practice with Git techniques that are more generally useful. It also leads
+to a nice history.
+
+Create a new, temporary branch and commit your uncommitted changes there.
+Checkout `master` and `git pull` to get changes from upstream. You now need to
+recover the work from the commit in the temporary branch. Options:
+
+  * Merge the temporary branch into `master`.
+  * Cherry pick the commit from the temporary branch into `master`.
+  
+In either case, it is still possible you will need to deal with merge
+conflicts.
+
+In either case, if you felt forced to commit before you were ready or to accept
+an ugly merge commit, you can either do a mixed reset to "uncommit" but keep the
+changes on `master` or keep amending until you are satisfied with the commit.
+
+### Some local work is committed, some is not
+
+This is an awkward hybrid situation that can be handled with a combination of
+strategies seen above: make a pragmatic commit on `master` or a temporary
+branch. Integrate the upstream and local changes in `master`. If you aren't
+happy with the final pragmatic commit (which only exists locally), reset or
+amend until you are.
+
+## Time travel: See the past {#time-travel-see-past}
+
+<!-- http://www.commitstrip.com/en/2019/01/28/git-lfs/? -->
+
+Sometimes you just need to **see** various files in your project as they were at
+some significant moment in the past. Examples:
+
+  * "I liked the color scheme of this plot better in last week's draft". "What's
+    up with that new funky outlier in figure 2?"
+    - Here you'll want to visit scripts and source data as they were the last
+      time you generated visualizations to share with this colleague.
+  * "The build has been failing on Windows for two weeks."
+    - Here you'll want to inspect package source at the "last known good"
+      version and scrutinize subsequent commits.
+
+All projects move through various states that you regard as "good" vs. "bad" or
+something in between. It can be useful to explore the past, when trying to get
+into a "good" state.
+
+### Hyperlinks are awesome!
+
+This is where GitHub really shines. The ability to quickly explore different
+commits/states, switch between branches, inspect individual files, and see the
+discussion in linked issues is incredibly powerful.
+
+Yes, technically, you can visit past states of your project using Git commands
+locally. But it is significantly more cumbersome. You generally have to checkout
+these previous states, which raises the prospect of getting comfortable in the
+"detached head" state and unintentionally making new commits on the wrong branch
+or on no branch at all.
+
+GitHub's hyperlink-rich presentation of your repo and its history is one of the
+top reasons to sync local work to a copy on GitHub, even if you keep it private.
+It can be much easier to hone in on a state or change of interest by clicking
+around or using GitHub's search features. Also, because it is so clearly a
+remote and read-only action, there is no possibility of goofing up local state
+or committing new work to the wrong branch.
+
+### Browse commit history and specific commits
+
+From your repo's landing page, access commit history by clicking on "xyz
+commits". This is like using `git log` locally, but much more rewarding. If you
+have a good [local Git client](#git-client), it probably also provides a
+graphical overview of history.
+
+<div class="figure">
+<img src="img/screenshots/github-link-to-commits.png" alt="Link to commit listing on GitHub." width="100%" />
+<p class="caption">(\#fig:github-link-to-commit-listing)Link to commit listing on GitHub.</p>
+</div>
+
+Once you're viewing the history, notice three ways to access more info for each
+commit:
+
+  1. The clipboard icon copies the SHA-1 of the commit. This can be handy if you
+     need to refer to this commit elsewhere, e.g. in an issue thread or a commit
+     message or in a Git command you're forming for local execution.
+  1. Click on the abbreviated SHA-1 itself in order to the view the diff
+     associated with the commit.
+  1. Click on the double angle brackets `<>` to browse the state of the entire
+     repo at that point in history.
+
+<div class="figure">
+<img src="img/screenshots/github-commit-listing.png" alt="Example of a commit listing on GitHub." width="100%" />
+<p class="caption">(\#fig:github-commit-listing)Example of a commit listing on GitHub.</p>
+</div>
+
+Back out of any drilled down view by clicking on `YOU/REPO` to return to your
+repo's landing page. This brings you back to the present state and top-level of
+your repo.
+
+### Use hyperlinks yourself!
+
+Once you've identified a relevant commit, diff, or file state, you can copy the
+current URL from your browser and use it to enhance online discussion elsewhere,
+i.e. to bring other people to this exact view of the repo. The hyperlink-iness
+of repos hosted on GitHub can make online discussion of a project much more
+precise and efficient.
+
+### File driven inquiries
+
+What if you're interested in how a specific file came to be the way it is? First
+navigate to the file, then notice "Blame" and "History" in the upper right.
+
+<div class="figure">
+<img src="img/screenshots/github-specific-file.png" alt="Visiting a specific file on GitHub." width="100%" />
+<p class="caption">(\#fig:github-specific-file)Visiting a specific file on GitHub.</p>
+</div>
+
+### Blame
+
+The "blame" view of a file is related to what `git blame` does on the command
+line. It reveals who last touched each line of the file, how long ago, and the
+associated commit message. Click on the commit message to visit that commit. Or
+click the "stacked rectangles" icon to move further back in time, but staying in
+blame view. This is handy when doing forensics on a specific and small set of
+lines.
+
+### History
+
+The "history" view for a file is very much like the overall commit history
+described above, except it only includes commits that affect the file of
+interest. This can be handy when your inquiry is rather diffuse and you're
+trying to digest the general story arc for a file.
+
+### Hyperlink to specific lines at a specific state
+
+When viewing a file on GitHub, you can click on a line number to highlight it.
+Use "click ... shift-click" to select a range of lines. Notice your browser's
+URL shows something of this form:
+
+``` bash
+https://github.com/OWNER/REPO/blob/SHA/path/to/file.R#L27-L31
+```
+
+If the URL does not contain the SHA, type "y" to toggle into that form.
+
+These file- and SHA-specific URLs are a great way to point people at particular
+lines of code in online conversations. It's best practice to use the uglier
+links that contain the SHA, as they will stand the test of time.
+
+### Search
+
+Search is always available in the upper-righthand corner of GitHub.
+
+<div class="figure">
+<img src="img/screenshots/github-repo-search.png" alt="Typing into GitHub search bar." width="100%" />
+<p class="caption">(\#fig:github-repo-search)Typing into GitHub search bar.</p>
+</div>
+
+Once you enter some text in the search box, a dropdown provides the choice to
+search in the current repo (the default) or all of GitHub. GitHub searches the
+contents of files (described as "Code"), commit messages, and issues. Take
+advantage of the search hits across these different domains. Again, this is a
+powerful way to zoom in on specific lines of code, revisit an interesting time
+in project history, or re-discover a conversation thread.
+
+### Issue search
+
+If you want to search issues specifically, the search box on any repo's Issues
+page is prepopulated with the filters `is:issue` and `is:open`.
+
+## Fork and clone {#fork-and-clone}
+
+Use "fork and clone" to get a copy of someone else's repo if there's any chance
+you will want to propose a change to the owner, i.e. send a "pull request". If
+you are waffling between "clone" and "fork and clone", go with "fork and
+clone".
+
+### Initial workflow
+
+On [GitHub](https://github.com), make sure you are signed in and navigate to the
+repo of interest. Think of this as `OWNER/REPO`, where `OWNER` is the user or
+organization who owns the repository named `REPO`.
+
+In the upper right hand corner, click **Fork**.
+
+This creates a copy of `REPO` in your GitHub account and takes you there in the
+browser. Now we are looking at `YOU/REPO`.
+
+**Clone** `YOU/REPO`, which is your copy of the repo, a.k.a. your fork, to your
+local machine. You have two options:
+
+  * [Existing project, GitHub first](#existing-github-first), an RStudio workflow we've used before.
+    - Your fork `YOU/REPO` plays the role of the existing GitHub repo, in this
+      case -- not the original repo!
+    - Make a conscious decision about the local destination directory and HTTPS vs SSH URL.
+  * Execute `git clone https://github.com/YOU/REPO.git` (or `git clone
+    git@github.com:YOU/REPO.git`) in the shell (Appendix \@ref(shell)).
+    - Clone your fork `YOU/REPO`-- not the original repo!
+    - `cd` to the desired parent directory first. Make a conscious decision about HTTPS vs SSH URL.
+    
+We're doing this:
+
+![](img/fork-and-clone.png)
+    
+### `usethis::create_from_github("OWNER/REPO")`
+
+The [usethis package](https://usethis.r-lib.org) has a convenience function,
+[`create_from_github()`](https://usethis.r-lib.org/reference/create_from_github.html), 
+that can do "fork and clone". In fact, it can go even further and 
+[set the `upstream` remote](#upstream-changes). However, `create_from_github()` 
+requires that you have 
+[configured a GitHub personal access token](#github-pat). It hides lots of 
+detail and can feel quite magical.
+
+Due to these difference, we won't dwell on `create_from_github()` here. But once
+you get tired of doing all of this "by hand", check it out!
+
+### Engage with the new repo
+
+If you did "fork and clone" via 
+[Existing project, GitHub first](#existing-github-first), you are probably 
+in an RStudio Project for this new repo.
+
+Regardless, get yourself into this project, whatever that means for you, using
+your usual method.
+
+Explore the new repo in some suitable way. If it is a package, you could run the
+tests or check it. If it is a data analysis project, run a script or render an
+Rmd. Convince yourself that you have gotten the code.
+
+### Don't mess with `master` {#dont-touch-master}
+
+If you make any commits in your local repository, I **strongly recommend** that
+you work in [a new branch](#git-branches), not `master`.
+
+I **strongly recommend** that you do not make commits to `master` of a repo you
+have forked.
+
+This will make your life much easier if you want to 
+[pull upstream work](#upstream-changes) into your copy. The `OWNER` of 
+`REPO` will also be happier to receive your pull request from a non-`master` branch.
+
+### The original repo as a remote
+
+Remember we are here:
+
+![](img/fork-and-clone.png)
+
+Here is the current situation in words:
+
+  * You have a fork `YOU/REPO`, which is a repo on GitHub.
+  * You have a local clone of your fork.
+  * Your fork `YOU/REPO` is the remote known as `origin` for your local repo.
+  * You are well positioned to make a pull request to `OWNER/REPO`.
+  
+But notice the lack of a direct connection between your local copy of this repo and the original `OWNER/REPO`. This is a problem.
+
+![](img/fork-no-upstream-sad.png)
+
+As time goes on, the original repository `OWNER/REPO` will continue to evolve.
+You probably want the ability to keep your copy up-to-date. In Git lingo, you
+will need to get the "upstream changes".
+
+![](img/fork-triangle-happy.png)
+
+See the workflow [Get upstream changes for a fork](#upstream-changes) for how to
+inspect your remotes, add `OWNER/REPO` as `upstream` if necessary, and pull
+changes, i.e. how to complete the "triangle" in the figure above.
+
+### No, you can't do this via GitHub
+
+You might hope that GitHub could automatically keep your fork `YOU/REPO` synced
+up with the original `OWNER/REPO`. Or that you could do this in the browser
+interface. Then you could pull those upstream changes into your local repo.
+
+But you can't.
+
+There are some tantalizing, janky ways to sort of do parts of this. But they
+have fatal flaws that make them unsustainable. I believe you really do need to
+[add `upstream` as a second remote on your repo and pull from there](#upstream-changes).
+
+## Get upstream changes for a fork {#upstream-changes}
+
+This workflow is relevant if you have done [fork and clone](#fork-and-clone) and
+now you need to pull subsequent changes from the original repo into your copy.
+
+Sometimes you set this up right away, when you fork and clone, even though you
+don't need it yet. Congratulations, you are planning for the future!
+
+It's also very typical to do this step a few days or months later. Maybe you're
+taking an interest in someone else's work for the second time and you want to
+make another pull request. Or you just want your copy to reflect their recent
+work. It is also totally normal to set this up upon first need.
+
+Vocabulary: `OWNER/REPO` refers to the original GitHub repo, owned by `OWNER`,
+who is not you. `YOU/REPO` refers to your copy on GitHub, i.e. your fork.
+
+### No, you can't do this via GitHub
+
+You might hope that GitHub could automatically keep your fork `YOU/REPO` synced
+up with the original `OWNER/REPO`. Or that you could do this in the browser
+interface. Then you could pull those upstream changes into your local repo.
+
+But you can't.
+
+There are some tantalizing, janky ways to sort of do parts of this. **But they
+have fatal flaws that make them unsustainable.** I believe you really do need to
+add `OWNER/REPO` as a second remote on your repo and pull from there.
+
+### Initial conditions
+
+Get into the repo of interest, i.e. your local copy. For many of you, this means
+launching it as an RStudio Project. You'll probably also want to open a terminal
+(Appendix \@ref(shell)) within RStudio for some Git work via *Tools > Terminal >
+New Terminal*.
+
+Make sure you are on the `master` branch and your "working tree is clean". `git
+status` should show something like:
+
+``` bash
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+```
+
+BTW I recommend that you 
+[never make your own commits to the `master` branch of a fork](#dont-touch-master). 
+However, if you have already done so, we are going to address your sorry
+situation below.
+
+### List your remotes
+
+Let's inspect [the current remotes](#git-remotes) for your local repo. In the
+shell (Appendix \@ref(shell)):
+
+``` bash
+git remote -v
+```
+
+Most of you will see output along these lines (let's call this BEFORE):
+
+``` bash
+origin  https://github.com/YOU/REPO.git (fetch)
+origin  https://github.com/YOU/REPO.git (push)
+```
+
+There is only one remote, named `origin`, corresponding to your fork on GitHub.
+This figure depicts a BEFORE scenario:
+
+![](img/fork-no-upstream-sad.png)
+
+This is sad, because there is no direct connection between `OWNER/REPO` and your
+local copy of the repo.
+
+The state we want to see is like this (let's call this AFTER):
+
+``` bash
+origin    https://github.com/YOU/REPO.git (fetch)
+origin    https://github.com/YOU/REPO.git (push)
+upstream  https://github.com/OWNER/REPO.git (fetch)
+upstream  https://github.com/OWNER/REPO.git (push)
+```
+
+Notice the second remote, named `upstream`, corresponding to the original repo
+on GitHub. This figure depicts AFTER, the scenario we want to achieve:
+
+![](img/fork-triangle-happy.png)
+
+Sidebar: If you used `usethis::create_from_github("OWNER/REPO")` for your
+original "fork and clone", the `upstream` should already be set up. In that
+case, you can skip to the part where we pull from `upstream`.
+
+
+### Add the `upstream` remote
+
+Let us add `OWNER/REPO` as the `upstream` remote.
+
+On [GitHub](https://github.com), make sure you are signed in and navigate to the
+original repo, `OWNER/REPO`. It is easy to get to from your fork, `YOU/REPO`,
+via "forked from" links near the top.
+
+Use the big green "Clone or download" button to get the URL for `OWNER/REPO` on
+your clipboard. Be intentional about whether you copy the HTTPS or SSH URL.
+
+#### Command line Git
+
+Use a command like this, but make an intentional choice about using an HTTPS vs
+SSH URL.
+
+``` bash
+git remote add upstream https://github.com/OWNER/REPO.git
+```
+
+The nickname `upstream` can technically be whatever you want. There is a strong
+tradition of using `upstream` in this context and, even though I have better
+ideas, I believe it is best to conform. Every book, blog post, and Stack
+Overflow thread that you read will use `upstream` here. Save your psychic energy
+for other things.
+
+#### RStudio
+
+This feels a bit odd, but humor me. Click on "New Branch" in the Git pane.
+
+![](img/rstudio-new-branch.png)]
+
+This will reveal a button to "Add Remote". Click it. Enter `upstream` as the
+remote name and paste the URL for `OWNER/REPO` that you got from GitHub. Click
+"Add". Decline the opportunity to add a new branch by clicking "Cancel".
+
+### Verify your `upstream` remote
+
+Let's inspect [the current remotes](#git-remotes) for your local repo AGAIN. In
+the shell:
+
+``` bash
+git remote -v
+```
+
+Now you should see something like
+
+``` bash
+origin    https://github.com/YOU/REPO.git (fetch)
+origin    https://github.com/YOU/REPO.git (push)
+upstream  https://github.com/OWNER/REPO.git (fetch)
+upstream  https://github.com/OWNER/REPO.git (push)
+```
+
+Notice the second remote, named `upstream`, corresponding to the original repo
+on GitHub. We have gotten to this:
+
+![](img/fork-triangle-happy.png)
+
+### Pull changes from `upstream`
+
+Now we can pull the changes that we don't have from `OWNER/REPO` into our local
+copy.
+
+
+``` bash
+git pull upstream master --ff-only
+```
+
+This says: "pull the changes from the remote known as `upstream` into the
+`master` branch of my local repo". We are being explicit about the remote and
+the branch in this case, because (as our `git remote -v` commands reveal),
+`upstream/master` is **not** the default tracking branch for local `master`.
+
+I **highly recommend** using the `--ff-only` flag in this case, so that you also
+say "if I have made my own commits to `master`, please force me to confront this
+problem NOW". Here's what it looks like if a fast-forward merge isn't possible:
+
+``` bash
+$ git pull upstream master --ff-only
+From github.com:OWNER/REPO
+ * branch              master     -> FETCH_HEAD
+fatal: Not possible to fast-forward, aborting.
+```
+
+See [Um, what if I did touch `master`?](#touched-master) to get yourself back on
+the happy path.
+
+### Push these changes to `origin/master`
+
+This is, frankly, totally optional and many people who are facile with Git do
+not bother.
+
+If you take my advice to [never work in `master` of a fork](#dont-touch-master),
+then the state of the `master` branch in your fork `YOU/REPO` does not matter.
+You will never make a pull request from `master`.
+
+If, however, your grasp of all these Git concepts is tenuous at best, it can be
+helpful to try to keep things simple and orderly and synced up.
+
+Feel free to push the newly updated state of local `master` to your fork
+`YOU/REPO` and enjoy the satisfaction of being "caught up" with `OWNER/REPO`.
+
+In the shell:
+
+``` bash
+git push
+```
+
+Or use the green "Push" button in RStudio.
+
+### Um, what if I did touch `master`? {#touched-master}
+
+I told you not to!
+
+But OK here we are.
+
+Let's imagine this is the state of the original repo `OWNER/REPO`:
+
+``` bash
+... -- A -- B -- C -- D -- E -- F
+```
+
+and this is the state of the `master` branch in your local copy:
+
+``` bash
+... -- A -- B -- C -- X -- Y -- Z
+```
+
+The two histories agree, up to commit or state `C`, then they diverge.
+
+If you want to preserve the work in commits `X`, `Y`, and `Z`, create a new
+branch right now, with tip at `Z`, via `git checkout -b my-great-innovations`
+(pick your own branch name!). Then checkout `master` via `git checkout master`.
+
+I now assume you have either preserved the work in `X`, `Y`, and `Z` (with a
+branch) or have decided to let it go.
+
+Do a hard reset of the `master` branch to `C`.
+
+``` bash
+git reset --hard C
+```
+
+You will have to figure out how to convey `C` in Git-speak. Specify it's
+relative to `HEAD` or provide the SHA. See *future link about resets* for more
+support.
+
+The instructions above for pulling changes from upstream should now work. Your
+`master` branch should reflect the history of `OWNER/REPO`:
+
+``` bash
+... -- A -- B -- C -- D -- E -- F
+```
+
+If you chose to create a branch with your work, you will also have that
+locally:
+
+
+``` bash
+... -- A -- B -- C -- D -- E -- F (master)
+                   \
+                    -- X -- Y -- Z (my-great-innovations)
+```
+
+If you pushed your alternative history (with commits `X`, `Y`, and `Z`) to your
+fork `YOU/REPO` and you like keeping everything synced up, you will also need to
+force push `master` via `git push --force`, but we really really don't like
+discussing force pushes in Happy Git. We only do so here, because we are talking
+about a fork, which is fairly easy to replace if things so sideways.
+
+## Get upstream changes for a fork {#upstream-changes}
+
+This workflow is relevant if you have done [fork and clone](#fork-and-clone) and
+now you need to pull subsequent changes from the original repo into your copy.
+
+Sometimes you set this up right away, when you fork and clone, even though you
+don't need it yet. Congratulations, you are planning for the future!
+
+It's also very typical to do this step a few days or months later. Maybe you're
+taking an interest in someone else's work for the second time and you want to
+make another pull request. Or you just want your copy to reflect their recent
+work. It is also totally normal to set this up upon first need.
+
+Vocabulary: `OWNER/REPO` refers to the original GitHub repo, owned by `OWNER`,
+who is not you. `YOU/REPO` refers to your copy on GitHub, i.e. your fork.
+
+### No, you can't do this via GitHub
+
+You might hope that GitHub could automatically keep your fork `YOU/REPO` synced
+up with the original `OWNER/REPO`. Or that you could do this in the browser
+interface. Then you could pull those upstream changes into your local repo.
+
+But you can't.
+
+There are some tantalizing, janky ways to sort of do parts of this. **But they
+have fatal flaws that make them unsustainable.** I believe you really do need to
+add `OWNER/REPO` as a second remote on your repo and pull from there.
+
+### Initial conditions
+
+Get into the repo of interest, i.e. your local copy. For many of you, this means
+launching it as an RStudio Project. You'll probably also want to open a terminal
+(Appendix \@ref(shell)) within RStudio for some Git work via *Tools > Terminal >
+New Terminal*.
+
+Make sure you are on the `master` branch and your "working tree is clean". `git
+status` should show something like:
+
+``` bash
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+```
+
+BTW I recommend that you 
+[never make your own commits to the `master` branch of a fork](#dont-touch-master). 
+However, if you have already done so, we are going to address your sorry
+situation below.
+
+### List your remotes
+
+Let's inspect [the current remotes](#git-remotes) for your local repo. In the
+shell (Appendix \@ref(shell)):
+
+``` bash
+git remote -v
+```
+
+Most of you will see output along these lines (let's call this BEFORE):
+
+``` bash
+origin  https://github.com/YOU/REPO.git (fetch)
+origin  https://github.com/YOU/REPO.git (push)
+```
+
+There is only one remote, named `origin`, corresponding to your fork on GitHub.
+This figure depicts a BEFORE scenario:
+
+![](img/fork-no-upstream-sad.png)
+
+## Make a GitHub repo browsable {#workflows-browsability}
+
+**The unreasonable effectiveness of GitHub browsability**. One of my favorite
+aspects of GitHub is the ability to inspect a repository's files in a browser.
+Certain practices make browsing more rewarding and can postpone the day when you
+must create a proper website for a project. Perhaps indefinitely.
+
+### Be savvy about your files
+
+Keep files in the plainest, web-friendliest form that is compatible with your
+main goals. Plain text is the very best. GitHub offers special handling for
+certain types of files:
+
+  * Markdown files, which may be destined for conversion into, e.g., HTML
+  * Markdown files named `README.md`
+  * HTML files, often the result of compiling Markdown files
+  * Source code, such as `.R` files
+  * Delimited files, such as CSVs and TSVs
+  * PNG files
+  
+### Get over your hang ups re: committing derived products
+  
+Let's acknowledge the discomfort some people feel about putting derived products
+under version control. Specifically, if you've got an R Markdown document
+`foo.Rmd`, it can be `knit()` to produce the intermediate product `foo.md`,
+which can be converted to the ultimate output `foo.html`. Which of those files
+are you "allowed" to put under version control? Source-is-real hardliners will
+say only `foo.Rmd` but pragmatists know this can be a serious bummer in real
+life. Just because I *can* rebuild everything from scratch, it doesn't mean I
+*want* to.
+
+The taboo of keeping derived products under version control originates from
+compilation of binary executables from source. Software built on a Mac would not
+work on Windows and so it made sense to keep these binaries out of the holy
+source code repository. Also, you could assume the people with access to the
+repository have the full development stack and relish opportunities to use it.
+None of these arguments really apply to the `foo.Rmd --> foo.md --> foo.html`
+workflow. We don't have to blindly follow traditions from the compilation
+domain!
+
+In fact, looking at the diffs for `foo.md` or `foo-figure-01.png` can be
+extremely informative. This is also true in larger data analytic projects after
+a `make clean; make all` operation. By looking at the diffs in the downstream
+products, you often catch unexpected changes. This can tip you off to changes in
+the underlying data and/or the behavior of packages you depend on.
+
+This chapter explores cool things GitHub can do with various file types, if they
+happen to end up in your repo. I won't ask you how they got there.
+  
+### Markdown
+
+You will quickly discover that GitHub renders Markdown files very nicely. By
+clicking on `foo.md`, you'll get a decent preview of `foo.html`. Yay! You should
+read
+[GitHub's own guide](https://guides.github.com/features/mastering-markdown/) 
+on how to leverage automatic Markdown rendering.
+
+Exploit this aggressively. Make Markdown your default format for narrative text
+files and use them liberally to embed notes to yourself and others in a
+repository hosted on Github. It's an easy way to get pseudo-webpages inside a
+project "for free". You may never even compile these files to HTML explicitly;
+in many cases, the HTML preview offered by GitHub is all you ever need.
+
+### R Markdown
+
+What does this mean for R Markdown files? **Keep intermediate Markdown. Or only
+render to Markdown.** Commit both `foo.Rmd` and `foo.md`, even if you choose to
+`.gitignore` the final product, e.g. `foo.html` or `foo.pdf` or `foo.docx`. From
+[September 2014](https://github.com/github/markup/pull/343), 
+GitHub renders R Markdown files nicely, like Markdown, and with proper syntax
+highlighting, which is great. But, of course, the code blocks just sit there
+un-executed, so my advice about keeping Markdown still holds.
+
+If your target output format is not Markdown, you want 
+[YAML frontmatter](https://gist.github.com/jennybc/402761e30b9be8023af9) 
+that looks something like this for `.Rmd`:
+
+
+
+
+``` yaml
+---
+title: "Something fascinating"
+author: "Jenny Bryan"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    keep_md: TRUE
+---
+```
+
+or like this for `.R`:
+
+``` yaml
+#' ---
+#' title: "Something fascinating"
+#' author: "Jenny Bryan"
+#' date: "`r format(Sys.Date())`"
+#' output:
+#'   html_document:
+#'     keep_md: TRUE
+#' ---
+```
+
+The `keep_md: TRUE` part says to keep the intermediate Markdown. In RStudio,
+when editing `.Rmd`, click on the gear next to "Knit HTML" for YAML authoring
+help.
+
+Since 2016, `rmarkdown` offers a 
+[custom output format for GitHub-flavored markdown, `github_document`](http://rmarkdown.rstudio.com/github_document_format.html). 
+Read about [R Markdown workflows](#rmd-test-drive) for explicit examples of 
+how to use this. If Markdown is your target output format, your 
+[YAML can be even simpler](https://gist.github.com/jennybc/402761e30b9be8023af9) 
+and look like this for `.Rmd`:
+
+
+
+
+``` yaml
+---
+output: github_document
+---
+```
+
+or like this for `.R`:
+
+``` yaml
+#' ---
+#' output: github_document
+#' ---
+```
+
+For a quick, stand-alone document that doesn't fit neatly into a repository
+or project (yet), make it a [Gist](https://gist.github.com). Example: Hadley
+Wickham's [advice on what you need to do to become a data scientist](https://gist.github.com/hadley/820f09ded347c62c2864). 
+Gists can contain multiple files, so you can still provide the R script or R
+Markdown source __and__ the resulting Markdown, as I've done in this write-up of 
+[Twitter-sourced tips for cross-tabulation](https://gist.github.com/jennybc/04b71bfaaf0f88d9d2eb). I've collected [YAML examples](https://gist.github.com/jennybc/402761e30b9be8023af9) 
+for all the above scenarios in a gist.
+
+### `README.md`
+
+You probably already know that GitHub renders `README.md` at the top-level of
+your repo as the *de facto* landing page. This is analogous to what happens when
+you point a web browser at a directory instead of a specific web page: if there
+is a file named `index.html`, that's what the server will show you by default.
+On GitHub, files named `README.md` play exactly this role for directories in
+your repo.
+
+Implication: for any logical group of files or mini project-within-your-project,
+create a sub-directory in your repository. And then create a `README.md` file to
+annotate these files, collect relevant links, etc. Now when you navigate to the
+sub-directory on GitHub the nicely rendered `README.md` will simply appear. The
+GitHub repo that backs the
+[gapminder](https://cran.r-project.org/package=gapminder) data package has a
+[README in the `data-raw` subdirectory](https://github.com/jennybc/gapminder/tree/master/data-raw#readme)
+that explains exactly how the package data is created. In fact, it is generated
+programmatically from
+[`README.Rmd`](https://github.com/jennybc/gapminder/blob/master/data-raw/README.Rmd).
+
+Some repositories consist solely of `README.md`. Examples: Jeff Leek's write-ups
+on [How to share data with a statistician](https://github.com/jtleek/datasharing)
+or [Developing R packages](https://github.com/jtleek/rpackages). I am becoming a 
+bigger fan of `README`-only repos than gists because repo issues trigger notifications,
+whereas comments on gists do not.
+
+If you've got a directory full of web-friendly figures, such as PNGs, you can use 
+[code like this](https://gist.github.com/jennybc/0239f65633e09df7e5f4) to generate
+a `README.md` for a quick DIY gallery, as Karl Broman has done with 
+[his FruitSnacks](https://github.com/kbroman/FruitSnacks/blob/master/PhotoGallery.md).
+I did same for all the [fantastic O RLY book covers](https://github.com/jennybc/orly-full-res#readme) made by The Practical Dev.
+
+I have also used this device to share Keynote slides on GitHub (*mea culpa!*).
+Export them as PNGs images and throw 'em into a README gallery: slides on 
+[file organization](https://github.com/Reproducible-Science-Curriculum/rr-organization1/tree/27883c8fc4cdd4dcc6a8232f1fe5c726e96708a0/slides/organization-slides)
+and some on 
+[file naming](https://github.com/Reproducible-Science-Curriculum/rr-organization1/tree/27883c8fc4cdd4dcc6a8232f1fe5c726e96708a0/slides/naming-slides).
+
+### Finding stuff
+
+OK these are pure GitHub tips but if you've made it this far, you're obviously a keener.
+
+  * Press `t` to activate [the file finder](https://github.com/blog/793-introducing-the-file-finder) whenever
+    you're in a repo's file and directory view. AWESOME, especially when there
+    are files tucked into lots of subdirectories.
+  * Press `y` to 
+    [get a permanent link](https://help.github.com/articles/getting-permanent-links-to-files/) 
+    when you're viewing a specific file. Watch what changes in the URL. This 
+    is important if you are about to *link* to a file or 
+    [to specific lines](http://stackoverflow.com/questions/23821235/how-to-link-to-specific-line-number-on-github). 
+    Otherwise your links will break easily in the future. If the file is deleted 
+    or renamed or if lines get inserted or deleted, your links will no longer 
+    point to what you intended. Use `y` to get links that include a specific 
+    commit in the URL.
+
+### HTML
+
+If you have an HTML file in a GitHub repository, simply visiting the file shows
+the raw HTML. Here's a nice ugly example:
+
+  * <https://github.com/STAT545-UBC/STAT545-UBC.github.io/blob/master/bit003_api-key-env-var.html>
+
+No one wants to look at that. ~~You can provide this URL to
+[rawgit.com](http://rawgit.com) to serve this HTML more properly and get a
+decent preview.~~
+
+~~You can form two different types of URLs with [rawgit.com](http://rawgit.com):~~
+
+  * ~~For sharing low-traffic, temporary examples or demos with small numbers of people, do this:~~
+    - ~~<https://rawgit.com/STAT545-UBC/STAT545-UBC.github.io/master/bit003_api-key-env-var.html>~~
+    - ~~Basically: replace `https://github.com/` with `https://rawgit.com/`~~
+  * ~~For use on production websites with any amount of traffic, do this:~~
+    - ~~<https://cdn.rawgit.com/STAT545-UBC/STAT545-UBC.github.io/master/bit003_api-key-env-var.html>~~
+    - ~~Basically: replace `https://github.com/` with `https://cdn.rawgit.com/`~~
+
+*2018-10-09 update: RawGit [announced](https://rawgit.com/) that it is in a sunset phase and will soon shut down. They recommended: [jsDelivr](https://www.jsdelivr.com/rawgit), [GitHub Pages](https://pages.github.com/), [CodeSandbox](https://codesandbox.io/), and [unpkg](https://unpkg.com/#/) as alternatives.*
+    
+This sort of enhanced link might be one of the useful things to put in a
+`README.md` or other Markdown file in the repo.
+
+You may also want to check out this 
+[Chrome extension](https://chrome.google.com/webstore/detail/github-html-preview/cphnnfjainnhgejcpgboeeakfkgbkfek?hl=en) 
+or 
+[GitHub & BitBucket HTML Preview](https://htmlpreview.github.io), though recently 
+I've more success with [rawgit.com](http://rawgit.com). (Neither work with private 
+GitHub repos, which is all the more reason to keep intermediate markdown files
+for HTML, as described above.)
+
+Sometimes including HTML files will cause GitHub to think that your R repository
+is HTML. Besides being slightly annoying, this can make it difficult for people
+to find your work if they are searching specifically for R repos. You can
+exclude these files or directories from GitHub's language statistics by 
+[adding a .gitattributes file](https://github.com/github/linguist#using-gitattributes)
+that marks them as 'documentation' rather than code. 
+[See an example here](https://github.com/jennybc/googlesheets/blob/master/.gitattributes).
+
+### Source code
+
+You will notice that GitHub does automatic syntax highlighting for source code.
+For example, notice the coloring of this 
+[R script](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-stripplot.r).
+The file's extension is the primary determinant for if/how syntax highlighting
+will be applied. You can see information on recognized languages, the default
+extensions and more at
+[github/linguist](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml).
+You should be doing it anyway, but let this be another reason to follow
+convention in your use of file extensions.
+
+Note you can click on "Raw" in this context as well, to get just the plain text
+and nothing but the plain text.
+    
+### Delimited files
+
+GitHub will nicely render tabular data in the form of `.csv` (comma-separated) and `.tsv` (tab-separated) files. You can read more in the 
+[blog post](https://github.com/blog/1601-see-your-csvs) announcing this feature 
+in August 2013 or in 
+[this GitHub help page](https://help.github.com/articles/rendering-csv-and-tsv-data).
+
+Advice: take advantage of this! If something in your repo can be naturally
+stored as delimited data, by all means, do so. Make the comma or tab your
+default delimiter and use the file suffixes GitHub is expecting. I have noticed
+that GitHub is more easily confused than R about things like quoting, so always
+inspect the GitHub-rendered `.csv` or `.tsv` file in the browser. You may need
+to do light cleaning to get the automagic rendering to work properly. Think of
+it as yet another way to learn about imperfections in your data.
+
+Here's an example of a tab delimited file on GitHub: [lotr_clean.tsv](https://github.com/jennybc/lotr/blob/master/lotr_clean.tsv), 
+originally found ~~here~~ (nope, IBM shut down manyeyes July 2015).
+
+Note you can click on "Raw" in this context as well, to get just the plain text
+and nothing but the plain text.
+
+### PNGs
+
+PNG is the "no brainer" format in which to store figures for the web. But many
+of us like a vector-based format, such as PDF, for general purpose figures.
+Bottom line: PNGs will drive you less crazy than PDFs on GitHub. To reduce the
+aggravation around viewing figures in the browser, make sure to have a PNG
+version in the repo.
+
+Examples:
+
+  * [This PNG figure](https://github.com/jennybc/STAT545A/blob/master/hw06_scaffolds/01_justR/stripplot_wordsByRace_The_Fellowship_Of_The_Ring.png) 
+    just shows up in the browser
+  * A different figure [stored as PDF](https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-country-colors.pdf)
+    ~~produces the dreaded, annoying "View Raw" speed bump. You'll have to click
+    through and, on my OS + browser, wait for the PDF to appear in an external PDF
+    viewer.~~ *2015-06-19 update: since I first wrote this GitHub has 
+    [elevated its treament of PDFs](https://github.com/blog/1974-pdf-viewing) so 
+    YAY. It's slow but it works.*
+  
+Hopefully we are moving towards a world where you can have "web friendly" and
+"vector" at the same time, without undue headaches. As of
+[October 2014](https://github.com/blog/1902-svg-viewing-diffing), GitHub 
+provides enhanced viewing and diffing of SVGs. So don't read this advice as
+discouraging SVGs. Make them! But consider keeping a PNG around as emergency
+back up for now.
+  
+### Other document formats
+
+You may also have a document you want others to be able to browse and interact
+with, but it is not in the markdown format. Fortunately, the open-source Pandoc
+program, written by John MacFarlane, allows you to convert a range of formats
+into markdown, including the widely used `.docx` format.
+
+When you click the Knit button in RStudio it is actually Pandoc which performs
+the final conversion to HTML or Microsoft Word (`.docx`) formats. If you are
+willing to use the command-line, you can perform the opposite conversion (eg
+`.docx` to `.md`), commonly retaining features such as headings, tables,
+equations and even figures.
+
+As some boilerplate, running in Windows PowerShell `pandoc --extract-media
+.\media -f docx .\example.docx -t markdown_github -o example_image.md` converts
+a word document called `example.docx` to markdown, and extracts the images into
+a directory which corresponds to a filepath in the newly created `example.md`
+document. A full list of supported formats and example code for conversions are
+available at https://pandoc.org/.
+
+You can also perform simple conversions to GitHub-flavored markdown from
+different markdown flavours (Pandoc supports `markdown_mmd`,
+`markdown_php_extra` and `markdown_strict`) from within RStudio. To do so you
+need to rename the file by changing the extension (eg from `foo.md` to
+`foo.Rmd`), then open the renamed file in RStudio and add the following text to
+the top of the document.
+
+``` yaml
+---
+output: github_document
+---
+```
+
+You can then click on "Knit" then "Knit to github document" to perform the
+conversion. See [Output format](## Output format) for more details of
+controlling output formats with the YAML frontmatter.
+
+### Linking to a ZIP archive of your repo
+
+The browsability of GitHub makes your work accessible to people who care about
+your content but who don't (yet) use Git themselves. What if such a person wants
+all the files? Yes, there is a clickable "Download ZIP" button offered by
+GitHub. But what if you want a link to include in an email or other document? If
+you add `/archive/master.zip` *to the end* of the URL for your repo, you
+construct a link that will download a ZIP archive of your repository. Click here
+to try this out on a very small repo:
+
+<https://github.com/jennybc/lotr/archive/master.zip>
+
+Go look in your downloads folder!
+
+## Links and embedded figures
+
+* To link to another page in your repo, just use a relative link:
+  `[admin](courseAdmin/)` will link to the `courseAdmin/` directory inside the
+  current directory. `[admin](/courseAdmin/)` will link to the top-level
+  `courseAdmin/` directory from any where in the repo
+
+* The same idea also works for images. `![](image.png)` will include `image.png`
+  located in the current directory
 

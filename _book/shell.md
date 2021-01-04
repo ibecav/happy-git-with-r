@@ -32,11 +32,6 @@ environments. This is how all work was done before we got the mouse and GUIs.
 The most common shell is `bash` and it gets thrown around as a proxy for "shell"
 sometimes, just like "Coke" and "Kleenex" are proxies for cola and tissues.
 
-In Happy Git, sometimes we demo the use of a shell for certain tasks, like
-navigating the file system and doing Git operations, when we don't want to or
-can't use RStudio. Providing shell commands is also less ambiguous and less
-perishable than describing human interactions with a GUI.
-
 ## Starting the shell
 
 ### From within RStudio
@@ -86,8 +81,7 @@ development. A lot of the functionality is going to feel janky and strapped on.
 Because it is.
 
 There are no fewer than 4 possible shells you can end up in. Unless you know
-better, you almost certainly want to be in a Git Bash shell, especially here in
-Happy Git.
+better, you almost certainly want to be in a Git Bash shell.
 
 Windows users will want to understand the different types of shell, how to
 launch them, and how to tell which one you're in.
@@ -105,7 +99,7 @@ Git Bash is a bash shell that ships with Git for Windows, which is
 [the Happy Git way to install Git on Windows](#install-git-windows). 
 Therefore, you will not have Git Bash on your system until you install Git for Windows.
 
-Git Bash is always the Windows shell we are targeting in Happy Git instructions.
+Git Bash is always the Windows shell we are targeting in our instructions.
 
 RStudio should automatically detect the presence of Git Bash. You can inspect
 and influence this directly via *Tools > Global Options > Terminal*. Unless you
@@ -152,7 +146,7 @@ C:\WINDOWS\system32\cmd.exe
 ```
 
 This is the native Windows command line interpreter. It's rarely what you want,
-especially for the work described in Happy Git.
+especially for the work described in this document.
 
 A Command Prompt session running outside of RStudio looks something like this:
 

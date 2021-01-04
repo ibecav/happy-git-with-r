@@ -10,7 +10,7 @@ If you have some new problem and, especially, the corresponding solution,
 Our installation instructions are brand new, bear with us it's the hardest
 part.
 
-## Register an account with GitHub. It's free!
+## Register an account with GitHub. It's free! {#github-acct}
 
   * <https://github.com>
   
@@ -41,7 +41,7 @@ Go ahead and register your account **NOW**. If you haven't already gotten an
 email invitation from us let Deepti or Chuck know. Since I work is not publicly
 viewable the invite is clutch.
 
-## Install or upgrade R and RStudio
+## Install or upgrade R and RStudio {#install-r-rstudio}
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(

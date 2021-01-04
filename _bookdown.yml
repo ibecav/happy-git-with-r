@@ -7,42 +7,20 @@ new_session: true
 
 rmd_files: [
   "index.Rmd",
-
   "overview.Rmd",
-
   "install-intro.Rmd",
-
   "connect-intro.Rmd",
-
   "usage-intro.Rmd",
-
   "git-intro.Rmd",
-
   "remote-setups-intro.Rmd",
-
   "workflows-intro.Rmd",
-  "workflows-explore-extend-pull-request.Rmd",
-  "workflows-make-github-repo-browsable.Rmd",
 
-  "prompt-clone.Rmd",
-  "prompt-fork-pr-bingo.Rmd",
-  "prompt-burn-it-all-down.Rmd",
-  "prompt-practice-resets.Rmd",
-  "prompt-search-github.Rmd",
-
-  "notes-intro.Rmd",
-  "notes-classroom-overview.Rmd",
-  "notes-ideas.Rmd",
-  "notes-bookdown-cheat-sheet.Rmd",
-
-  "contributors.Rmd",
   "appendix.Rmd",
   "shell.Rmd",
+  "prompt-burn-it-all-down.Rmd",
   "connect-troubleshooting.Rmd",
   "connect-credential-caching.Rmd",
-  "connect-ssh-keys.Rmd",
   "github-api-tokens.Rmd",
-  "comic-relief.Rmd",
 
   "references.Rmd"
 ]
