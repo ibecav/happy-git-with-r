@@ -11,8 +11,6 @@ rmd_files: [
   "overview.Rmd",
 
   "install-intro.Rmd",
-  "install-github-acct.Rmd",
-  "install-r-rstudio.Rmd",
   "install-git.Rmd",
   "install-introduce-self-git.Rmd",
   "install-git-client.Rmd",
