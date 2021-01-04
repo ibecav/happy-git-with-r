@@ -16,20 +16,9 @@ rmd_files: [
 
   "usage-intro.Rmd",
 
-  "usage-existing-project-github-first.Rmd",
-  "usage-existing-project-github-last.Rmd",
-  "usage-rmd-and-github.Rmd",
-  "usage-r-script-and-github.Rmd",
-
   "git-intro.Rmd",
-  "git-basics.Rmd",
-  "git-commands.Rmd",
-  "git-branches.Rmd",
-  "git-remotes.Rmd",
 
   "remote-setups-intro.Rmd",
-  "remote-setups-common.Rmd",
-  "remote-setups-equivocal.Rmd",
 
   "workflows-intro.Rmd",
   "workflows-repeated-amend.Rmd",
