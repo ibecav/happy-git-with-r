@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>C RStudio, Git, GitHub Hell | Let’s Git After It</title>
+  <title>Chapter 1 Quickstart – tl;dr | Let’s Git After It</title>
   <meta name="description" content="Using Git and GitHub with R, Rstudio, and R Markdown" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="C RStudio, Git, GitHub Hell | Let’s Git After It" />
+  <meta property="og:title" content="Chapter 1 Quickstart – tl;dr | Let’s Git After It" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="img/watch-me-diff-watch-me-rebase-smaller.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="github.com/ibecav/happy-git-with-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="C RStudio, Git, GitHub Hell | Let’s Git After It" />
+  <meta name="twitter:title" content="Chapter 1 Quickstart – tl;dr | Let’s Git After It" />
   
   <meta name="twitter:description" content="Using Git and GitHub with R, Rstudio, and R Markdown" />
   <meta name="twitter:image" content="img/watch-me-diff-watch-me-rebase-smaller.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="burn.html"/>
-<link rel="next" href="credential-caching.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="big-picture.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -408,139 +408,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="troubleshooting" class="section level1">
-<h1><span class="header-section-number">C</span> RStudio, Git, GitHub Hell</h1>
-<p>Problems we have seen and possible solutions.</p>
-<p>If you experience some new problem and, especially, find the corresponding
-solution,
-<a href="https://github.com/jennybc/happy-git-with-r/issues">we’d love to hear from you!</a></p>
-<div id="i-think-i-have-installed-git-but-damn-if-i-can-find-it" class="section level2">
-<h2><span class="header-section-number">C.1</span> I think I have installed Git but damn if I can find it</h2>
-<p>When you install Git, try to control or record where it is being installed! Make
-a mental or physical note of these things.</p>
-<p>You may be able to find Git after the fact with these commands in the shell (Appendix <a href="shell.html#shell">A</a>):</p>
-<ul>
-<li><p><code>which git</code> (Mac, Linux, or anything running a bash shell)</p></li>
-<li><p><code>where git</code> (Windows, when not in a bash shell)</p></li>
-</ul>
-<p>It is not entirely crazy to just re-install Git, using a method that leaves it
-in a more conventional location, and to pay very close attention to where it’s
-being installed. Live and learn.</p>
-</div>
-<div id="rstudio-git-pane-disappears-on-mac-os" class="section level2">
-<h2><span class="header-section-number">C.2</span> RStudio Git pane disappears on Mac OS</h2>
-<p>Sometimes the RStudio Git pane disappears on a system where it was previously
-working. This usually happens to people who installed Git by installing the
-Xcode command line tools. It is usually a sign that you need to re-agree to the
-Xcode license agreement. This is necessary after a Mac OS upgrade, re-installing
-Xcode, or even quiet Xcode upgrades that happen in normal system maintenance.</p>
-<p>In the shell, you could execute <code>git status</code> and you might see a message along these lines:</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb132-1"><a href="troubleshooting.html#cb132-1"></a><span class="ex">Agreeing</span> to the Xcode/iOS license requires admin privileges, please run “sudo xcodebuild -license” and then retry this command.</span></code></pre></div>
-<p>If you get such clear instructions, by all means do what it says, i.e. run <code>sudo xcodebuild -license</code>, to re-agree to the license.</p>
-<p>In any case, you need to tickle the Xcode command line tools to prompt you for
-whatever it needs. Here are other commands that, depending on the situation,
-might trigger the necessary prompts:</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb133-1"><a href="troubleshooting.html#cb133-1"></a><span class="ex">xcode-select</span> --install</span></code></pre></div>
-<p>or</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb134-1"><a href="troubleshooting.html#cb134-1"></a><span class="fu">git</span> config --global --list</span></code></pre></div>
-<p>Then <strong>restart RStudio</strong>.</p>
-</div>
-<div id="dysfunctional-path" class="section level2">
-<h2><span class="header-section-number">C.3</span> Dysfunctional PATH</h2>
-<p>I’m pretty sure that most cases of RStudio <em>not</em> automatically detecting the Git
-executable stem from problems with <code>PATH</code>. This is the set of directories where
-your computer will look for executables, such as Git (today) or <code>make</code> (later in
-this course). Certain methods of Git installation, especially on Windows and/or
-older OSes, have a higher tendency to put Git in an unconventional location or
-to fail to add the relevant directory to <code>PATH</code>.</p>
-<p>How to see your <code>PATH</code>?</p>
-<p>In the shell:</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb135-1"><a href="troubleshooting.html#cb135-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code></pre></div>
-<p>Take a good hard look at this. See the point above about finding your Git
-executable or re-installing it while you are <strong>wide awake</strong>. Is the host
-directory in your <code>PATH</code>? No? <strong>Fix that.</strong></p>
-<p>Go <a href="http://www.troubleshooters.com/linux/prepostpath.htm">here</a>
-for instructions on what to put in your <code>.bash_profile</code> in order to add
-a directory to <code>PATH</code>.</p>
-</div>
-<div id="pushpull-buttons-greyed-out-in-rstudio" class="section level2">
-<h2><span class="header-section-number">C.4</span> Push/Pull buttons greyed out in RStudio</h2>
-<p>Are you sure your local repository is associated with a remote repository, e.g.
-a GitHub repo? In a shell with working directory set to the local Git repo,
-enter this command:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb136-1"><a href="troubleshooting.html#cb136-1"></a><span class="ex">jenny@2015-mbp</span> myrepo $ git remote -v</span>
-<span id="cb136-2"><a href="troubleshooting.html#cb136-2"></a><span class="ex">origin</span>  https://github.com/jennybc/myrepo (fetch)</span>
-<span id="cb136-3"><a href="troubleshooting.html#cb136-3"></a><span class="ex">origin</span>  https://github.com/jennybc/myrepo (push)</span></code></pre></div>
-<p>We want to see that fetch and push are set to remote URLs that point to the
-remote repo. Note also that the GitHub repo is a remote named <code>origin</code>, as far
-as your local repo is concerned. This is typical and, though I think <code>github</code> is
-a vastly superior name, <code>origin</code> is such a strong convention that I follow it.</p>
-<p>If you discover you still need to set a remote, get the HTTPS or SSH URL, as
-appropriate, for your GitHub repo. This is easy to get onto your clipboard from
-the repo’s GitHub page. Do this in the shell:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb137-1"><a href="troubleshooting.html#cb137-1"></a><span class="fu">git</span> remote add origin https://github.com/jennybc/myrepo.git</span></code></pre></div>
-<p>Download all the files from the online GitHub repository and deal with any
-conflicts.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb138-1"><a href="troubleshooting.html#cb138-1"></a><span class="fu">git</span> pull origin master</span></code></pre></div>
-<p>Call <code>git remote -v</code> again. Once you can prove that your GitHub remote is set
-properly, you can move on to the next step.</p>
-<p>Are you sure the current branch is <em>tracking</em> a branch on the remote? In that
-same shell, in your repo, do this:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb139-1"><a href="troubleshooting.html#cb139-1"></a><span class="ex">jenny@2015-mbp</span> myrepo $ git branch -vv</span>
-<span id="cb139-2"><a href="troubleshooting.html#cb139-2"></a><span class="ex">*</span> master b8e03e3 [origin/master] line added locally</span></code></pre></div>
-<p>The above shows successful confirmation that the local <code>master</code> branch is
-tracking <code>origin/master</code>, i.e. the master branch on GitHub. If you don’t see the
-<code>[origin/master]</code> bit, that is a problem. By the way, <code>git branch -r</code> is another
-handy way to examine your remote-tracking branches. (If you’re working with a
-branch other than <code>master</code>, adjust everything accordingly.)</p>
-<p>When connecting a local repo to a new GitHub repo, a lot of people remember to
-add the GitHub remote, but forget to also cement this tracking relationship for
-any relevant branches.</p>
-<p>If you discover your local <code>master</code> branch is not yet tracking <code>master</code> on
-GitHub, fix that like so:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb140-1"><a href="troubleshooting.html#cb140-1"></a><span class="fu">git</span> push --set-upstream origin master</span></code></pre></div>
-<p>This is equivalent to <code>git push -u origin master</code> but conveys more about what
-you are doing.</p>
-<p>Call <code>git branch -vv</code> or <code>git branch -r</code> again to confirm that the <code>master</code>
-branch on GitHub is the upstream or tracking branch for the local <code>master</code>
-branch.</p>
-</div>
-<div id="i-have-no-idea-if-my-local-repo-and-my-remote-repo-are-connected." class="section level2">
-<h2><span class="header-section-number">C.5</span> I have no idea if my local repo and my remote repo are connected.</h2>
-<p>See the above section on “Push/Pull buttons greyed out in RStudio.”</p>
-</div>
-<div id="push-fail-at-the-rstudio-level" class="section level2">
-<h2><span class="header-section-number">C.6</span> Push fail at the RStudio level</h2>
-<p>Do you get this error in RStudio?</p>
-<pre><code>error: unable to read askpass response from &#39;rpostback-askpass&#39;</code></pre>
-<p>Open the shell: <em>Tools &gt; Shell</em>.</p>
-<pre class="shell"><code>git push -u origin master</code></pre>
-</div>
-<div id="push-rejected-i.e.-fail-at-the-gitgithub-level" class="section level2">
-<h2><span class="header-section-number">C.7</span> Push rejected, i.e. fail at the Git/GitHub level</h2>
-<p>You might have changes on the remote AND on your local repo. Just because you
-don’t remember making any edits in the browser doesn’t mean you didn’t. Humor
-me.</p>
-<p>Pull first. Resolve any conflicts. Then try your push again.</p>
-</div>
-<div id="rstudio-is-not-making-certain-files-available-for-stagingcommitting" class="section level2">
-<h2><span class="header-section-number">C.8</span> RStudio is not making certain files available for staging/committing</h2>
-<p>Do you have a space in your directory or file names?
-<a href="https://twitter.com/aaronquinlan/status/711593127551733761">A space in a file name is a space in your soul.</a> Get rid of it.</p>
-<p>Is your Git repo / RStudio Project inside a folder that … eventually rolls up
-to Google Drive, DropBox, Microsoft OneDrive, or a network drive? If yes, I
-recommend you move the repo / Project into a plain old directory that lives
-directly on your computer and that is not managed by, e.g., Google Drive.</p>
-<p>If you cannot deal with the two root causes identified above, then it is
-possible that a more powerful Git client (chapter <a href="install-intro.html#git-client">3.5</a>) will be
-able to cope with these situations. But I make no promises. You should also try
-Git operations from the command line.</p>
-</div>
-<div id="i-hear-you-have-some-git-repo-inside-your-git-repo" class="section level2">
-<h2><span class="header-section-number">C.9</span> I hear you have some Git repo inside your Git repo</h2>
-<p><strong>Do not create a Git repository inside another Git repository. Just don’t.</strong></p>
-<p>If you have a genuine need for this, which is really rare, the proper way to do it is via
-<a href="http://git-scm.com/book/en/v2/Git-Tools-Submodules">submodules</a>.</p>
+<div id="quickstart" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Quickstart – tl;dr</h1>
+<p>If you just want to get up and running and skip a lot of reading and not worry
+about potential future issues, wants and needs then this is the place for you!</p>
+<div id="checklist" class="section level2 unnumbered">
+<h2>The checklist simplified</h2>
+<ol style="list-style-type: decimal">
+<li>Register an account with GitHub (chapter <a href="install-intro.html#github-acct">3.1</a>)</li>
+<li>Install or upgrade R and RStudio (chapter <a href="install-intro.html#install-r-rstudio">3.2</a>)</li>
+<li>Install Git (chapter <a href="install-intro.html#install-git-windows">3.3.2</a>)</li>
+<li>Configure Git (chapter <a href="install-intro.html#hello-git">3.4</a>)</li>
+<li><strong>optional</strong> Install a Git client (chapter <a href="install-intro.html#git-client">3.5</a>)</li>
+<li>Make sure it’s all connected (chapter <a href="connect-intro.html#rstudio-git-github">4.2</a>)</li>
+</ol>
 
 </div>
 </div>
@@ -549,8 +430,8 @@ Git operations from the command line.</p>
           </div>
         </div>
       </div>
-<a href="burn.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="credential-caching.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="big-picture.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -581,7 +462,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/jennybc/happy-git-with-r/edit/master/connect-troubleshooting.Rmd",
+"link": "https://github.com/jennybc/happy-git-with-r/edit/master/quickstart.Rmd",
 "text": "Edit"
 },
 "history": {

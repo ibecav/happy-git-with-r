@@ -514,7 +514,7 @@ should now look more like this:
     ---
     title: "Something fascinating"
     author: "Jenny Bryan"
-    date: "2021-01-04"
+    date: "2021-01-05"
     output:
       html_document:
         keep_md: true
@@ -531,7 +531,7 @@ GitHub-flavored markdown. In that case, make your YAML look like this:
     ---
     title: "Something fascinating"
     author: "Jenny Bryan"
-    date: "2021-01-04"
+    date: "2021-01-05"
     output: github_document
     ---
 ```

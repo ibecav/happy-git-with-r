@@ -4,6 +4,7 @@ fig:github-commit-listing
 fig:github-specific-file
 fig:github-repo-search
 fig:git-via-ssh-or-https-github-api
+quickstart
 big-picture
 why-git
 why-github

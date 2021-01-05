@@ -7,6 +7,7 @@ new_session: true
 
 rmd_files: [
   "index.Rmd",
+  "quickstart.Rmd",
   "overview.Rmd",
   "install-intro.Rmd",
   "connect-intro.Rmd",
