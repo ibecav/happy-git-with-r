@@ -19,8 +19,19 @@ about potential future issues, wants and needs then this is the place for you!
 10. Make sure you're set-up to track upstream changes (chapter
    \@ref(upstream-changes))
 11. Start a new branch in your own copy of the repository -- remember don't
-   touch master until you're sure play in other branches (chapter
+   touch master until you're sure! Work or play in other branches (chapter
    \@ref(dont-touch-master))
+12. Play around, write code, or make modifications in your working branch. You're
+   safe you're in a playground and you can't break anything and if all else
+   fails you can burn it all down and start again! (chapter
+   \@ref(burn))
+13. Push some changes from **your** working branch of **your** working copy of
+   the repo up to Github (the "push" button in RStudio).
+
+   
+
+
+
    
    
    
