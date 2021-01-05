@@ -11,6 +11,19 @@ about potential future issues, wants and needs then this is the place for you!
 4. Configure Git (chapter \@ref(hello-git))
 5. **optional** Install a Git client (chapter \@ref(git-client))
 6. Make sure it's all connected (chapter \@ref(rstudio-git-github))
+7. Find that email where you were invited to the playground
+   (https://github.com/ibecav/ctdph_playground)
+8. Get **your** copy of the __playgound__ by **forking**
+9. Make a copy of the fork (a clone) into your own RStudio (File > New Project >
+   Version Control) (chapter \@ref(fork-and-clone))
+10. Make sure you're set-up to track upstream changes (chapter
+   \@ref(upstream-changes))
+11. Start a new branch in your own copy of the repository -- remember don't
+   touch master until you're sure play in other branches (chapter
+   \@ref(dont-touch-master))
+   
+   
+   
 
 
 
