@@ -27,7 +27,13 @@ about potential future issues, wants and needs then this is the place for you!
    \@ref(burn))
 13. Push some changes from **your** working branch of **your** working copy of
    the repo up to Github (the "push" button in RStudio).
-
+14. When you think you're ready to have your code integrated back into the
+   master copy for the whole team that's when you make a pull request. You
+   accomplish that in GitHub.
+15. When you're comfortable with what you're doing repeat the same process for
+   https://github.com/ibecav/CTDPH_prod, with steps 7-14.
+16. Remember the real power of GitHUB really lies in tracking issues and
+   projects. https://github.com/ibecav/ctdph_playground/issues
    
 
 

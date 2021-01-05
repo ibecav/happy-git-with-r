@@ -60,7 +60,8 @@ Already have R installed? **Hold on: This is a great time to make sure your R in
 
 1. Install RStudio Desktop. Already have RStudio? **Hold on: This is a great
    time to upgrade to the latest version.** Download it here:
-    <https://www.rstudio.com/products/rstudio/download/>
+    <https://www.rstudio.com/products/rstudio/download/> you can check
+    version numbers with "About RStudio".
     
 ![Screenshot showing RStudio download](img/rstudio_versions.png)
     
@@ -103,7 +104,8 @@ something you might update once every month or so.
 You need Git, so RStudio can use it and so you can use it at the command line
 (maybe).
 
-If there's any chance it's installed already, verify that, rejoice, and skip this step.
+If there's any chance it's installed already, verify that, rejoice, and skip
+this step.
 
 Otherwise, find installation instructions below for your operating system.
 

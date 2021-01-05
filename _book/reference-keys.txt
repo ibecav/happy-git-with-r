@@ -167,9 +167,6 @@ verify-your-upstream-remote
 pull-changes-from-upstream
 push-these-changes-to-originmaster
 touched-master
-no-you-cant-do-this-via-github-2
-initial-conditions-1
-list-your-remotes-1
 workflows-browsability
 be-savvy-about-your-files
 get-over-your-hang-ups-re-committing-derived-products
