@@ -1,6 +1,6 @@
 # RStudio, Git, GitHub Hell {#troubleshooting}
 
-Problems we have seen and possible solutions.
+Problems we have seen and possible solutions.  
 
 If you experience some new problem and, especially, find the corresponding
 solution, 
